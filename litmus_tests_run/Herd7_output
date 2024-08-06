@@ -1,0 +1,1642 @@
+vlab@HYVLAB8:~/Desktop$ ls
+'COMPANY TRAINING'   diy_Output   herdtools7   Litmus   litmus-tests-riscv   Litmus_test.txt   session_output.txt   test.litmus
+vlab@HYVLAB8:~/Desktop$ mkdir C_output
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output/
+vlab@HYVLAB8:~/Desktop$ ls
+'COMPANY TRAINING'   C_output   diy_Output   herdtools7   Litmus   litmus-tests-riscv   Litmus_test.txt   session_output.txt   test.litmus
+vlab@HYVLAB8:~/Desktop$ cd C_output/
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh  litmus_rand.c  litmus_rand.h  Makefile  outs.c  outs.h  README.txt  run.sh  show.awk  test.c  utils.c  utils.h
+vlab@HYVLAB8:~/Desktop/C_output$ make
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c outs.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c utils.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c litmus_rand.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -S test.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread  -o test.exe outs.o utils.o litmus_rand.o test.s
+awk -f show.awk test.s > test.t
+rm test.s
+vlab@HYVLAB8:~/Desktop/C_output$ gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c outs.c
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe  utils.c  utils.o
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.t    utils.h
+vlab@HYVLAB8:~/Desktop/C_output$ gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c utils.c
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe  utils.c  utils.o
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.t    utils.h
+vlab@HYVLAB8:~/Desktop/C_output$ gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c litmus_rand.c
+vlab@HYVLAB8:~/Desktop/C_output$ gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c litmus_rand.c
+vlab@HYVLAB8:~/Desktop/C_output$ gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -S test.c
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe  test.t   utils.h
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.s    utils.c  utils.o
+vlab@HYVLAB8:~/Desktop/C_output$ gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread  -o test.exe outs.o utils.o litmus_rand.o test.s
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe  test.t   utils.h
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.s    utils.c  utils.o
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.t
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.s
+	.file	"test.c"
+	.text
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC0:
+	.string	"SB, check_globals failed"
+	.text
+	.p2align 4
+	.type	check_globals, @function
+check_globals:
+.LFB79:
+	.cfi_startproc
+	pushq	%r15
+	.cfi_def_cfa_offset 16
+	.cfi_offset 15, -16
+	leaq	.LC0(%rip), %r15
+	pushq	%r14
+	.cfi_def_cfa_offset 24
+	.cfi_offset 14, -24
+	pushq	%r13
+	.cfi_def_cfa_offset 32
+	.cfi_offset 13, -32
+	pushq	%r12
+	.cfi_def_cfa_offset 40
+	.cfi_offset 12, -40
+	movq	%rdi, %r12
+	pushq	%rbp
+	.cfi_def_cfa_offset 48
+	.cfi_offset 6, -48
+	leaq	88(%rdi), %rbp
+	pushq	%rbx
+	.cfi_def_cfa_offset 56
+	.cfi_offset 3, -56
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 64
+	movq	96(%rdi), %rax
+	movq	(%rdi), %r14
+	movq	8(%rdi), %r13
+	movl	4(%rax), %eax
+	subl	$1, %eax
+	movslq	%eax, %rbx
+	jns	.L5
+	jmp	.L6
+	.p2align 4,,10
+	.p2align 3
+.L3:
+	movq	%rbp, %rdi
+	call	rand_bit@PLT
+	testl	%eax, %eax
+	je	.L4
+	movl	0(%r13,%rbx,4), %eax
+	testl	%eax, %eax
+	jne	.L18
+.L4:
+	subq	$1, %rbx
+	testl	%ebx, %ebx
+	js	.L6
+.L5:
+	movq	%rbp, %rdi
+	call	rand_bit@PLT
+	testl	%eax, %eax
+	je	.L3
+	movl	(%r14,%rbx,4), %edx
+	testl	%edx, %edx
+	je	.L3
+	movq	%r15, %rdi
+	call	fatal@PLT
+	jmp	.L3
+	.p2align 4,,10
+	.p2align 3
+.L18:
+	movq	%r15, %rdi
+	subq	$1, %rbx
+	call	fatal@PLT
+	testl	%ebx, %ebx
+	jns	.L5
+.L6:
+	movq	32(%r12), %rdi
+	addq	$8, %rsp
+	.cfi_def_cfa_offset 56
+	popq	%rbx
+	.cfi_def_cfa_offset 48
+	popq	%rbp
+	.cfi_def_cfa_offset 40
+	popq	%r12
+	.cfi_def_cfa_offset 32
+	popq	%r13
+	.cfi_def_cfa_offset 24
+	popq	%r14
+	.cfi_def_cfa_offset 16
+	popq	%r15
+	.cfi_def_cfa_offset 8
+	jmp	pb_wait@PLT
+	.cfi_endproc
+.LFE79:
+	.size	check_globals, .-check_globals
+	.section	.rodata.str1.1
+.LC1:
+	.string	"%i: Stabilizing final state!\n"
+	.text
+	.p2align 4
+	.type	stabilize_globals, @function
+stabilize_globals:
+.LFB80:
+	.cfi_startproc
+	pushq	%r15
+	.cfi_def_cfa_offset 16
+	.cfi_offset 15, -16
+	leaq	48(%rsi), %rdx
+	pushq	%r14
+	.cfi_def_cfa_offset 24
+	.cfi_offset 14, -24
+	pushq	%r13
+	.cfi_def_cfa_offset 32
+	.cfi_offset 13, -32
+	pushq	%r12
+	.cfi_def_cfa_offset 40
+	.cfi_offset 12, -40
+	leaq	64(%rsi), %r12
+	pushq	%rbp
+	.cfi_def_cfa_offset 48
+	.cfi_offset 6, -48
+	movl	%edi, %ebp
+	pushq	%rbx
+	.cfi_def_cfa_offset 56
+	.cfi_offset 3, -56
+	movslq	%ebp, %rbp
+	movq	%rsi, %rbx
+	subq	$40, %rsp
+	.cfi_def_cfa_offset 96
+	movq	96(%rsi), %rax
+	movq	8(%rsi), %r15
+	movl	%edi, 28(%rsp)
+	movq	32(%rsi), %rdi
+	movl	4(%rax), %eax
+	movq	(%rsi), %r14
+	movq	%rdx, 8(%rsp)
+	movl	%eax, 24(%rsp)
+	call	pb_wait@PLT
+	movq	%rbp, %rax
+	movq	8(%rsp), %rdx
+	salq	$3, %rbp
+	addl	$1, %eax
+	andl	$1, %eax
+	leaq	(%rdx,%rbp), %r13
+	addq	%r12, %rbp
+	salq	$3, %rax
+	leaq	(%rdx,%rax), %rcx
+	movq	%rcx, 8(%rsp)
+	leaq	(%r12,%rax), %rcx
+	movl	24(%rsp), %eax
+	movq	%rcx, 16(%rsp)
+	leal	-1(%rax), %r12d
+	.p2align 4,,10
+	.p2align 3
+.L26:
+	movq	40(%rbx), %rdi
+	testl	%r12d, %r12d
+	js	.L20
+	movq	0(%r13), %rsi
+	movq	0(%rbp), %rcx
+	movslq	%r12d, %rax
+	.p2align 4,,10
+	.p2align 3
+.L21:
+	movl	(%r15,%rax,4), %edx
+	movl	%edx, (%rsi,%rax,4)
+	movl	(%r14,%rax,4), %edx
+	movl	%edx, (%rcx,%rax,4)
+	subq	$1, %rax
+	testl	%eax, %eax
+	jns	.L21
+	call	po_reinit@PLT
+	movq	8(%rsp), %rax
+	movq	0(%r13), %r11
+	movq	0(%rbp), %r9
+	movq	(%rax), %r10
+	movq	16(%rsp), %rax
+	movq	(%rax), %r8
+	movl	24(%rsp), %eax
+	subl	$2, %eax
+	cltq
+	.p2align 4,,10
+	.p2align 3
+.L24:
+	movl	4(%r11,%rax,4), %esi
+	movl	4(%r10,%rax,4), %ecx
+	movl	4(%r8,%rax,4), %edi
+	cmpl	%edi, 4(%r9,%rax,4)
+	je	.L35
+.L23:
+	movl	28(%rsp), %esi
+	leaq	.LC1(%rip), %rdi
+	xorl	%eax, %eax
+	call	log_error@PLT
+	movl	$1, %esi
+.L25:
+	movq	40(%rbx), %rdi
+	call	po_wait@PLT
+	testl	%eax, %eax
+	jne	.L26
+	addq	$40, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 56
+	popq	%rbx
+	.cfi_def_cfa_offset 48
+	popq	%rbp
+	.cfi_def_cfa_offset 40
+	popq	%r12
+	.cfi_def_cfa_offset 32
+	popq	%r13
+	.cfi_def_cfa_offset 24
+	popq	%r14
+	.cfi_def_cfa_offset 16
+	popq	%r15
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L35:
+	.cfi_restore_state
+	movl	%eax, %edx
+	notl	%edx
+	shrl	$31, %edx
+	cmpl	%ecx, %esi
+	sete	%dil
+	subq	$1, %rax
+	testb	%dl, %dil
+	jne	.L24
+	cmpl	%ecx, %esi
+	jne	.L23
+	xorl	%esi, %esi
+	jmp	.L25
+	.p2align 4,,10
+	.p2align 3
+.L20:
+	call	po_reinit@PLT
+	xorl	%esi, %esi
+	jmp	.L25
+	.cfi_endproc
+.LFE80:
+	.size	stabilize_globals, .-stabilize_globals
+	.p2align 4
+	.type	P1, @function
+P1:
+.LFB82:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	.cfi_offset 3, -24
+	movq	%rdi, %rbx
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 32
+#APP
+# 41 "test.c" 1
+	mfence
+# 0 "" 2
+#NO_APP
+	movq	8(%rdi), %rbp
+	movq	%rbp, %rdi
+	call	check_globals
+	movq	96(%rbp), %rax
+	movl	(%rbx), %r9d
+	movq	80(%rbp), %r8
+	movl	4(%rax), %esi
+	subl	$1, %esi
+	movslq	%esi, %rcx
+	salq	$2, %rcx
+	testl	%esi, %esi
+	js	.L41
+	.p2align 4,,10
+	.p2align 3
+.L40:
+	movl	%esi, %eax
+	leaq	(%r8,%rcx), %rdx
+	andl	$1, %eax
+	cmpl	%r9d, %eax
+	je	.L49
+	.p2align 4,,10
+	.p2align 3
+.L38:
+	movl	(%rdx), %eax
+	testl	%eax, %eax
+	je	.L38
+.L39:
+	movq	8(%rbp), %rdx
+	movq	0(%rbp), %rdi
+#APP
+# 234 "test.c" 1
+	
+#START _litmus_P1
+#_litmus_P1_0
+	movl $1,(%rdi,%rcx)
+#_litmus_P1_1
+	movl (%rdx,%rcx),%eax
+#END _litmus_P1
+
+# 0 "" 2
+#NO_APP
+	movq	24(%rbp), %rdx
+	subl	$1, %esi
+	movl	%eax, (%rdx,%rcx)
+	subq	$4, %rcx
+	cmpl	$-1, %esi
+	jne	.L40
+.L41:
+	movq	%rbp, %rsi
+	movl	$1, %edi
+	call	stabilize_globals
+#APP
+# 41 "test.c" 1
+	mfence
+# 0 "" 2
+#NO_APP
+	addq	$8, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	xorl	%eax, %eax
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%rbp
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L49:
+	.cfi_restore_state
+	movl	$1, (%rdx)
+	jmp	.L39
+	.cfi_endproc
+.LFE82:
+	.size	P1, .-P1
+	.p2align 4
+	.type	P0, @function
+P0:
+.LFB81:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	.cfi_offset 3, -24
+	movq	%rdi, %rbx
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 32
+#APP
+# 41 "test.c" 1
+	mfence
+# 0 "" 2
+#NO_APP
+	movq	8(%rdi), %rbp
+	movq	%rbp, %rdi
+	call	check_globals
+	movq	96(%rbp), %rax
+	movl	(%rbx), %r9d
+	movq	80(%rbp), %r8
+	movl	4(%rax), %esi
+	subl	$1, %esi
+	movslq	%esi, %rcx
+	salq	$2, %rcx
+	testl	%esi, %esi
+	js	.L55
+	.p2align 4,,10
+	.p2align 3
+.L54:
+	movl	%esi, %eax
+	leaq	(%r8,%rcx), %rdx
+	andl	$1, %eax
+	cmpl	%r9d, %eax
+	je	.L63
+	.p2align 4,,10
+	.p2align 3
+.L52:
+	movl	(%rdx), %eax
+	testl	%eax, %eax
+	je	.L52
+.L53:
+	movq	8(%rbp), %rdx
+	movq	0(%rbp), %rdi
+#APP
+# 206 "test.c" 1
+	
+#START _litmus_P0
+#_litmus_P0_0
+	movl $1,(%rdx,%rcx)
+#_litmus_P0_1
+	movl (%rdi,%rcx),%eax
+#END _litmus_P0
+
+# 0 "" 2
+#NO_APP
+	movq	16(%rbp), %rdx
+	subl	$1, %esi
+	movl	%eax, (%rdx,%rcx)
+	subq	$4, %rcx
+	cmpl	$-1, %esi
+	jne	.L54
+.L55:
+	movq	%rbp, %rsi
+	xorl	%edi, %edi
+	call	stabilize_globals
+#APP
+# 41 "test.c" 1
+	mfence
+# 0 "" 2
+#NO_APP
+	addq	$8, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 24
+	xorl	%eax, %eax
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%rbp
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L63:
+	.cfi_restore_state
+	movl	$1, (%rdx)
+	jmp	.L53
+	.cfi_endproc
+.LFE81:
+	.size	P0, .-P0
+	.section	.rodata.str1.8,"aMS",@progbits,1
+	.align 8
+.LC2:
+	.string	"%-6lu%c>0:EAX=%d; 1:EAX=%d; [x]=%d; [y]=%d;\n"
+	.text
+	.p2align 4
+	.type	do_dump_outcome, @function
+do_dump_outcome:
+.LFB77:
+	.cfi_startproc
+	endbr64
+	subq	$16, %rsp
+	.cfi_def_cfa_offset 24
+	movq	%rdx, %r10
+	movq	24(%rsi), %r9
+	movq	16(%rsi), %r8
+	movq	8(%rsi), %rdx
+	cmpl	$1, %ecx
+	movq	%r10, %rcx
+	pushq	%r9
+	.cfi_def_cfa_offset 32
+	sbbl	%eax, %eax
+	pushq	%r8
+	.cfi_def_cfa_offset 40
+	andl	$16, %eax
+	pushq	%rdx
+	.cfi_def_cfa_offset 48
+	movl	(%rsi), %r9d
+	leal	42(%rax), %r8d
+	leaq	.LC2(%rip), %rdx
+	movl	$1, %esi
+	xorl	%eax, %eax
+	call	__fprintf_chk@PLT
+	addq	$40, %rsp
+	.cfi_def_cfa_offset 8
+	ret
+	.cfi_endproc
+.LFE77:
+	.size	do_dump_outcome, .-do_dump_outcome
+	.section	.rodata.str1.1
+.LC3:
+	.string	"Run %i of %i\r"
+.LC4:
+	.string	"SB, global x unstabilized"
+.LC5:
+	.string	"SB, global y unstabilized"
+	.text
+	.p2align 4
+	.type	zyva, @function
+zyva:
+.LFB87:
+	.cfi_startproc
+	endbr64
+	pushq	%r15
+	.cfi_def_cfa_offset 16
+	.cfi_offset 15, -16
+	pushq	%r14
+	.cfi_def_cfa_offset 24
+	.cfi_offset 14, -24
+	pushq	%r13
+	.cfi_def_cfa_offset 32
+	.cfi_offset 13, -32
+	pushq	%r12
+	.cfi_def_cfa_offset 40
+	.cfi_offset 12, -40
+	pushq	%rbp
+	.cfi_def_cfa_offset 48
+	.cfi_offset 6, -48
+	pushq	%rbx
+	.cfi_def_cfa_offset 56
+	.cfi_offset 3, -56
+	subq	$280, %rsp
+	.cfi_def_cfa_offset 336
+	movq	16(%rdi), %r15
+	movq	8(%rdi), %rdi
+	movq	%fs:40, %rax
+	movq	%rax, 264(%rsp)
+	xorl	%eax, %eax
+	movq	%r15, 16(%rsp)
+	call	pb_wait@PLT
+	leaq	P0(%rip), %rax
+	movl	$24, %edi
+	movq	%rax, 80(%rsp)
+	leaq	P1(%rip), %rax
+	movq	%rax, 88(%rsp)
+	call	malloc_check@PLT
+	movslq	4(%r15), %rbx
+	movq	$0, (%rax)
+	movq	%rax, %r14
+	movq	$0, 16(%rax)
+	leaq	0(,%rbx,4), %rbp
+	movq	$0, 8(%rax)
+	movq	%r15, 256(%rsp)
+	call	rand@PLT
+	movq	%rbp, %rdi
+	movl	%eax, 248(%rsp)
+	call	malloc_check@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 176(%rsp)
+	call	malloc_check@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 184(%rsp)
+	call	malloc_check@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 160(%rsp)
+	call	malloc_check@PLT
+	movl	$2, %edi
+	movq	%rax, 168(%rsp)
+	call	pb_create@PLT
+	movl	$2, %edi
+	movq	%rax, 192(%rsp)
+	call	po_create@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 200(%rsp)
+	call	malloc_check@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 216(%rsp)
+	call	malloc_check@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 232(%rsp)
+	call	malloc_check@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 208(%rsp)
+	call	malloc_check@PLT
+	movq	%rbp, %rdi
+	movq	%rax, 224(%rsp)
+	call	malloc_check@PLT
+	movl	8(%r15), %r8d
+	movl	$1, 112(%rsp)
+	movq	%rax, 240(%rsp)
+	leaq	160(%rsp), %rax
+	movq	%rax, 120(%rsp)
+	movl	$0, 96(%rsp)
+	movq	%rax, 104(%rsp)
+	testl	%r8d, %r8d
+	jle	.L78
+	leaq	96(%rsp), %rax
+	movl	$0, 28(%rsp)
+	movq	%rax, 48(%rsp)
+	leaq	112(%rsp), %rax
+	movq	%rax, 56(%rsp)
+	leaq	64(%rsp), %rax
+	movq	%rax, 32(%rsp)
+	leaq	72(%rsp), %rax
+	movq	%rax, 40(%rsp)
+	.p2align 4,,10
+	.p2align 3
+.L69:
+	movq	16(%rsp), %rax
+	cmpl	$1, (%rax)
+	jle	.L70
+	movl	28(%rsp), %ecx
+	movq	stderr(%rip), %rdi
+	leaq	.LC3(%rip), %rdx
+	xorl	%eax, %eax
+	movl	$1, %esi
+	call	__fprintf_chk@PLT
+.L70:
+	movq	256(%rsp), %rax
+	movslq	4(%rax), %rdx
+	movl	%edx, %ecx
+	subl	$1, %ecx
+	js	.L75
+	movslq	%ecx, %rax
+	movl	%ecx, %ecx
+	movq	160(%rsp), %r10
+	movq	168(%rsp), %r9
+	subq	%rcx, %rdx
+	movq	176(%rsp), %r8
+	salq	$2, %rax
+	movq	184(%rsp), %rdi
+	movq	240(%rsp), %rsi
+	leaq	-8(,%rdx,4), %rcx
+	.p2align 4,,10
+	.p2align 3
+.L74:
+	movl	$0, (%r10,%rax)
+	leaq	(%rsi,%rax), %rdx
+	movl	$0, (%r9,%rax)
+	movl	$-239487, (%r8,%rax)
+	movl	$-239487, (%rdi,%rax)
+	subq	$4, %rax
+	movl	$0, (%rdx)
+	cmpq	%rax, %rcx
+	jne	.L74
+.L75:
+	movq	16(%rsp), %rax
+	movl	12(%rax), %edx
+	testl	%edx, %edx
+	jne	.L96
+.L73:
+	movq	56(%rsp), %rdx
+	movq	88(%rsp), %rsi
+	movq	40(%rsp), %rdi
+	call	launch@PLT
+	movq	48(%rsp), %rdx
+	movq	80(%rsp), %rsi
+	movq	32(%rsp), %rdi
+	call	launch@PLT
+	movq	16(%rsp), %rax
+	movl	12(%rax), %eax
+	testl	%eax, %eax
+	jne	.L97
+.L76:
+	movq	40(%rsp), %rdi
+	call	join@PLT
+	movq	32(%rsp), %rdi
+	call	join@PLT
+	movq	16(%rsp), %rax
+	movslq	4(%rax), %rax
+	movl	%eax, %edx
+	subl	$1, %edx
+	js	.L86
+	movslq	%edx, %r9
+	movl	%edx, %edx
+	subq	%rdx, %rax
+	leaq	0(,%r9,4), %r15
+	leaq	-8(,%rax,4), %rax
+	movq	%rax, (%rsp)
+	leaq	128(%rsp), %rax
+	movq	%rax, 8(%rsp)
+	jmp	.L85
+	.p2align 4,,10
+	.p2align 3
+.L94:
+	movq	8(%rsp), %rsi
+	xorl	%r8d, %r8d
+	movl	$1, %ecx
+	movl	$4, %edx
+	movq	%r13, 128(%rsp)
+	subq	$4, %r15
+	movq	%r12, 136(%rsp)
+	movq	%rbp, 144(%rsp)
+	movq	%rbx, 152(%rsp)
+	call	add_outcome_outs@PLT
+	addq	$1, 16(%r14)
+	movq	%rax, (%r14)
+	cmpq	(%rsp), %r15
+	je	.L86
+.L85:
+	movq	176(%rsp), %rax
+	movslq	(%rax,%r15), %r13
+	movq	184(%rsp), %rax
+	movslq	(%rax,%r15), %r12
+	movq	168(%rsp), %rax
+	movslq	(%rax,%r15), %rbp
+	movq	160(%rsp), %rax
+	movslq	(%rax,%r15), %rbx
+	movq	216(%rsp), %rax
+	cmpl	(%rax,%r15), %ebp
+	je	.L79
+	leaq	.LC4(%rip), %rdi
+	call	fatal@PLT
+.L79:
+	movq	208(%rsp), %rax
+	cmpl	(%rax,%r15), %ebp
+	je	.L80
+	leaq	.LC4(%rip), %rdi
+	call	fatal@PLT
+.L80:
+	movq	232(%rsp), %rax
+	cmpl	(%rax,%r15), %ebx
+	je	.L81
+	leaq	.LC5(%rip), %rdi
+	call	fatal@PLT
+.L81:
+	movq	224(%rsp), %rax
+	cmpl	(%rax,%r15), %ebx
+	je	.L82
+	leaq	.LC5(%rip), %rdi
+	call	fatal@PLT
+.L82:
+	movl	%r13d, %eax
+	movq	(%r14), %rdi
+	orl	%r12d, %eax
+	jne	.L94
+	movq	8(%rsp), %rsi
+	movl	$1, %r8d
+	movl	$1, %ecx
+	movl	$4, %edx
+	movq	$0, 128(%rsp)
+	subq	$4, %r15
+	movq	$0, 136(%rsp)
+	movq	%rbp, 144(%rsp)
+	movq	%rbx, 152(%rsp)
+	call	add_outcome_outs@PLT
+	addq	$1, 8(%r14)
+	movq	%rax, (%r14)
+	cmpq	(%rsp), %r15
+	jne	.L85
+.L86:
+	movq	16(%rsp), %rsi
+	addl	$1, 28(%rsp)
+	movl	28(%rsp), %eax
+	movl	8(%rsi), %r8d
+	cmpl	%eax, %r8d
+	jg	.L69
+.L78:
+	movq	160(%rsp), %rdi
+	call	free@PLT
+	movq	168(%rsp), %rdi
+	call	free@PLT
+	movq	176(%rsp), %rdi
+	call	free@PLT
+	movq	184(%rsp), %rdi
+	call	free@PLT
+	movq	192(%rsp), %rdi
+	call	pb_free@PLT
+	movq	200(%rsp), %rdi
+	call	po_free@PLT
+	movq	216(%rsp), %rdi
+	call	free@PLT
+	movq	232(%rsp), %rdi
+	call	free@PLT
+	movq	208(%rsp), %rdi
+	call	free@PLT
+	movq	224(%rsp), %rdi
+	call	free@PLT
+	movq	240(%rsp), %rdi
+	call	free@PLT
+	movq	264(%rsp), %rax
+	xorq	%fs:40, %rax
+	jne	.L98
+	addq	$280, %rsp
+	.cfi_remember_state
+	.cfi_def_cfa_offset 56
+	movq	%r14, %rax
+	popq	%rbx
+	.cfi_def_cfa_offset 48
+	popq	%rbp
+	.cfi_def_cfa_offset 40
+	popq	%r12
+	.cfi_def_cfa_offset 32
+	popq	%r13
+	.cfi_def_cfa_offset 24
+	popq	%r14
+	.cfi_def_cfa_offset 16
+	popq	%r15
+	.cfi_def_cfa_offset 8
+	ret
+	.p2align 4,,10
+	.p2align 3
+.L96:
+	.cfi_restore_state
+	leaq	80(%rsp), %rsi
+	leaq	248(%rsp), %rdi
+	movl	$2, %edx
+	call	perm_funs@PLT
+	jmp	.L73
+	.p2align 4,,10
+	.p2align 3
+.L97:
+	movq	32(%rsp), %rsi
+	leaq	248(%rsp), %rdi
+	movl	$2, %edx
+	call	perm_threads@PLT
+	jmp	.L76
+.L98:
+	call	__stack_chk_fail@PLT
+	.cfi_endproc
+.LFE87:
+	.size	zyva, .-zyva
+	.section	.rodata.str1.1
+.LC6:
+	.string	"Always"
+.LC7:
+	.string	"Never"
+.LC8:
+	.string	"Sometimes"
+.LC9:
+	.string	"SB: n=%i, r=%i, s=%i"
+.LC10:
+	.string	"\n"
+.LC11:
+	.string	"SB, sum_hist"
+.LC12:
+	.string	"Test SB Allowed\n"
+.LC13:
+	.string	"Histogram (%d states)\n"
+.LC14:
+	.string	"Observation SB %s %lu %lu\n"
+.LC16:
+	.string	"Time SB %.2f\n"
+.LC17:
+	.string	"Ok"
+.LC18:
+	.string	"%s\n"
+.LC19:
+	.string	"\nWitnesses\n"
+.LC20:
+	.string	"Positive: %lu, Negative: %lu\n"
+.LC21:
+	.string	""
+.LC22:
+	.string	"exists (0:EAX=0 /\\ 1:EAX=0)"
+.LC23:
+	.string	"Condition %s is %svalidated\n"
+	.section	.rodata.str1.8
+	.align 8
+.LC24:
+	.string	"Hash=2d53e83cd627ba17ab11c875525e078b\n"
+	.section	.rodata.str1.1
+.LC25:
+	.string	"No"
+.LC26:
+	.string	"NOT "
+	.section	.text.startup,"ax",@progbits
+	.p2align 4
+	.globl	main
+	.type	main, @function
+main:
+.LFB90:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	pushq	%r15
+	pushq	%r14
+	leaq	-208(%rbp), %rcx
+	leaq	-320(%rbp), %rdx
+	pushq	%r13
+	pushq	%r12
+	pushq	%rbx
+	subq	$376, %rsp
+	.cfi_offset 15, -24
+	.cfi_offset 14, -32
+	.cfi_offset 13, -40
+	.cfi_offset 12, -48
+	.cfi_offset 3, -56
+	movq	%fs:40, %rax
+	movq	%rax, -56(%rbp)
+	xorl	%eax, %eax
+	movabsq	$42949672960, %rax
+	movq	$1, -304(%rbp)
+	movq	%rax, -320(%rbp)
+	movabsq	$-4294867296, %rax
+	movq	%rax, -312(%rbp)
+	movl	$4294967295, %eax
+	movdqa	-320(%rbp), %xmm1
+	movq	%rax, -256(%rbp)
+	movq	$0, -296(%rbp)
+	movdqa	-304(%rbp), %xmm2
+	movq	$0, -288(%rbp)
+	movl	$-1, -280(%rbp)
+	movdqa	-288(%rbp), %xmm3
+	movq	$0, -272(%rbp)
+	movq	$0, -264(%rbp)
+	movdqa	-272(%rbp), %xmm4
+	movq	$0, -248(%rbp)
+	movdqa	-256(%rbp), %xmm5
+	movq	%rax, -224(%rbp)
+	movaps	%xmm1, -208(%rbp)
+	movaps	%xmm2, -192(%rbp)
+	movaps	%xmm3, -176(%rbp)
+	movaps	%xmm4, -160(%rbp)
+	movq	$0, -240(%rbp)
+	movq	$-1, -232(%rbp)
+	movl	$0, -216(%rbp)
+	movaps	%xmm5, -144(%rbp)
+	movdqa	-240(%rbp), %xmm6
+	movdqa	-224(%rbp), %xmm7
+	movaps	%xmm6, -128(%rbp)
+	movaps	%xmm7, -112(%rbp)
+	call	parse_cmd@PLT
+	movq	stdout(%rip), %r13
+	call	timeofday@PLT
+	movl	-200(%rbp), %ecx
+	movl	-204(%rbp), %edx
+	movl	$1, -324(%rbp)
+	movq	%rax, -368(%rbp)
+	movl	-108(%rbp), %esi
+	movl	-208(%rbp), %eax
+	movl	%ecx, -332(%rbp)
+	movl	%edx, -328(%rbp)
+	movl	%eax, -336(%rbp)
+	testl	%esi, %esi
+	je	.L100
+	movl	$0, -324(%rbp)
+.L100:
+	movl	-188(%rbp), %r15d
+	movl	-192(%rbp), %esi
+	testl	%r15d, %r15d
+	jle	.L143
+.L101:
+	testl	%eax, %eax
+	jne	.L144
+.L102:
+	leal	-1(%r15), %eax
+	movq	%rsp, %rbx
+	movl	%eax, -344(%rbp)
+	cltq
+	leaq	15(,%rax,8), %rax
+	movq	%rax, %rdx
+	andq	$-4096, %rax
+	subq	%rax, %rbx
+	andq	$-16, %rdx
+	movq	%rbx, %rax
+	cmpq	%rax, %rsp
+	je	.L104
+.L145:
+	subq	$4096, %rsp
+	orq	$0, 4088(%rsp)
+	cmpq	%rax, %rsp
+	jne	.L145
+.L104:
+	andl	$4095, %edx
+	subq	%rdx, %rsp
+	testq	%rdx, %rdx
+	jne	.L146
+.L105:
+	movslq	%r15d, %rax
+	movq	%rsp, %rbx
+	movq	%rsp, -376(%rbp)
+	movq	%rax, -384(%rbp)
+	leaq	(%rax,%rax,2), %rax
+	leaq	15(,%rax,8), %rax
+	movq	%rax, %rdx
+	andq	$-4096, %rax
+	subq	%rax, %rbx
+	andq	$-16, %rdx
+	movq	%rbx, %rax
+.L106:
+	cmpq	%rax, %rsp
+	je	.L107
+	subq	$4096, %rsp
+	orq	$0, 4088(%rsp)
+	jmp	.L106
+.L143:
+	movl	$1, %r15d
+	cmpl	$1, %esi
+	jle	.L101
+	sarl	%esi
+	movl	%esi, %r15d
+	jmp	.L101
+.L144:
+	movl	%r15d, %esi
+	leaq	.LC9(%rip), %rdi
+	xorl	%eax, %eax
+	call	log_error@PLT
+	leaq	.LC10(%rip), %rdi
+	xorl	%eax, %eax
+	call	log_error@PLT
+	jmp	.L102
+.L146:
+	orq	$0, -8(%rsp,%rdx)
+	jmp	.L105
+.L107:
+	andl	$4095, %edx
+	subq	%rdx, %rsp
+	testq	%rdx, %rdx
+	jne	.L147
+.L108:
+	call	pm_create@PLT
+	movl	%r15d, %edi
+	xorl	%r12d, %r12d
+	movq	%rsp, %rbx
+	movq	%rax, -352(%rbp)
+	xorl	%r14d, %r14d
+	call	pb_create@PLT
+	leaq	-336(%rbp), %rsi
+	movl	%r15d, -396(%rbp)
+	movq	%rbx, %r15
+	movq	%rax, -360(%rbp)
+	movq	-376(%rbp), %rax
+	movq	%rsi, -392(%rbp)
+	movq	%r12, %rsi
+	movq	%r13, %r12
+	movq	%rax, -408(%rbp)
+	movq	%rax, %rbx
+	movq	%rsi, %r13
+	jmp	.L111
+	.p2align 4,,10
+	.p2align 3
+.L149:
+	movq	%r15, %rdx
+	leaq	zyva(%rip), %rsi
+	movq	%rbx, %rdi
+	call	launch@PLT
+.L110:
+	leal	1(%r14), %ecx
+	addq	$24, %r15
+	addq	$8, %rbx
+	cmpl	%ecx, -396(%rbp)
+	je	.L148
+	movl	%ecx, %r14d
+.L111:
+	movq	-392(%rbp), %rax
+	movq	%rax, 16(%r15)
+	movq	-352(%rbp), %rax
+	movq	%rax, (%r15)
+	movq	-360(%rbp), %rax
+	movq	%rax, 8(%r15)
+	cmpl	%r14d, -344(%rbp)
+	jg	.L149
+	movq	%r15, %rdi
+	call	zyva
+	movq	%rax, %r13
+	jmp	.L110
+	.p2align 4,,10
+	.p2align 3
+.L148:
+	movq	%r13, %rax
+	movslq	-328(%rbp), %rbx
+	movq	%r12, %r13
+	movq	%rax, %r12
+	movslq	-332(%rbp), %rax
+	imulq	%rax, %rbx
+	movl	-344(%rbp), %eax
+	testl	%eax, %eax
+	je	.L118
+	movq	-376(%rbp), %rsi
+	leal	-1(%r14), %eax
+	movq	%r13, -376(%rbp)
+	leaq	.LC11(%rip), %r14
+	movq	-408(%rbp), %r15
+	leaq	8(%rsi,%rax,8), %rax
+	movq	%rax, -344(%rbp)
+	.p2align 4,,10
+	.p2align 3
+.L117:
+	movq	%r15, %rdi
+	call	join@PLT
+	movq	(%rax), %rdi
+	movq	%rax, %r13
+	call	sum_outs@PLT
+	cmpq	%rax, %rbx
+	jne	.L115
+	movq	8(%r13), %rdx
+	movq	16(%r13), %rax
+	leaq	(%rdx,%rax), %rcx
+	cmpq	%rcx, %rbx
+	je	.L116
+.L115:
+	movq	%r14, %rdi
+	call	fatal@PLT
+	movq	8(%r13), %rdx
+	movq	16(%r13), %rax
+.L116:
+	addq	%rdx, 8(%r12)
+	movq	0(%r13), %rsi
+	movl	$4, %edx
+	addq	$8, %r15
+	addq	%rax, 16(%r12)
+	movq	(%r12), %rdi
+	call	merge_outs@PLT
+	movq	%rax, (%r12)
+	movq	0(%r13), %rdi
+	call	free_outs@PLT
+	movq	%r13, %rdi
+	call	free@PLT
+	cmpq	%r15, -344(%rbp)
+	jne	.L117
+	movq	-376(%rbp), %r13
+.L118:
+	call	timeofday@PLT
+	movq	-352(%rbp), %rdi
+	subq	-368(%rbp), %rax
+	movq	%rax, %r14
+	call	pm_free@PLT
+	movq	-360(%rbp), %rdi
+	call	pb_free@PLT
+	movq	-384(%rbp), %rdx
+	movq	(%r12), %rdi
+	imulq	%rbx, %rdx
+	movq	%rdx, -344(%rbp)
+	call	sum_outs@PLT
+	movq	-344(%rbp), %rdx
+	cmpq	%rax, %rdx
+	jne	.L113
+	movq	8(%r12), %rbx
+	movq	16(%r12), %r15
+	leaq	(%rbx,%r15), %rax
+	cmpq	%rax, %rdx
+	je	.L119
+.L113:
+	leaq	.LC11(%rip), %rdi
+	call	fatal@PLT
+	movq	8(%r12), %rbx
+	movq	16(%r12), %r15
+.L119:
+	movq	%r13, %rcx
+	movl	$16, %edx
+	movl	$1, %esi
+	leaq	.LC12(%rip), %rdi
+	call	fwrite@PLT
+	movq	(%r12), %rdi
+	call	finals_outs@PLT
+	leaq	.LC13(%rip), %rdx
+	movl	$1, %esi
+	movq	%r13, %rdi
+	movl	%eax, %ecx
+	xorl	%eax, %eax
+	call	__fprintf_chk@PLT
+	movq	(%r12), %rdx
+	leaq	-96(%rbp), %rcx
+	movq	%r13, %rdi
+	movl	$4, %r8d
+	leaq	do_dump_outcome(%rip), %rsi
+	call	dump_outs@PLT
+	testq	%rbx, %rbx
+	je	.L150
+	leaq	.LC17(%rip), %rcx
+	leaq	.LC18(%rip), %rdx
+	movq	%r13, %rdi
+	xorl	%eax, %eax
+	movl	$1, %esi
+	call	__fprintf_chk@PLT
+	movq	%r13, %rcx
+	movl	$11, %edx
+	movl	$1, %esi
+	leaq	.LC19(%rip), %rdi
+	call	fwrite@PLT
+	movq	%r15, %r8
+	movq	%rbx, %rcx
+	movl	$1, %esi
+	leaq	.LC20(%rip), %rdx
+	movq	%r13, %rdi
+	xorl	%eax, %eax
+	call	__fprintf_chk@PLT
+	movl	$1, %esi
+	movq	%r13, %rdi
+	xorl	%eax, %eax
+	leaq	.LC21(%rip), %r8
+	leaq	.LC22(%rip), %rcx
+	leaq	.LC23(%rip), %rdx
+	call	__fprintf_chk@PLT
+	movq	%r13, %rcx
+	movl	$38, %edx
+	movl	$1, %esi
+	leaq	.LC24(%rip), %rdi
+	call	fwrite@PLT
+	testq	%r15, %r15
+	leaq	.LC6(%rip), %rcx
+	leaq	.LC8(%rip), %rax
+	cmovne	%rax, %rcx
+.L124:
+	xorl	%eax, %eax
+	movq	%r15, %r9
+	movq	%rbx, %r8
+	leaq	.LC14(%rip), %rdx
+	movl	$1, %esi
+	movq	%r13, %rdi
+	call	__fprintf_chk@PLT
+	testq	%r14, %r14
+	js	.L122
+	pxor	%xmm0, %xmm0
+	cvtsi2sdq	%r14, %xmm0
+.L123:
+	leaq	.LC16(%rip), %rdx
+	movl	$1, %esi
+	movq	%r13, %rdi
+	movl	$1, %eax
+	divsd	.LC15(%rip), %xmm0
+	call	__fprintf_chk@PLT
+	movq	%r13, %rdi
+	call	fflush@PLT
+	movq	(%r12), %rdi
+	call	free_outs@PLT
+	movq	%r12, %rdi
+	call	free@PLT
+	movq	-56(%rbp), %rax
+	xorq	%fs:40, %rax
+	jne	.L151
+	leaq	-40(%rbp), %rsp
+	xorl	%eax, %eax
+	popq	%rbx
+	popq	%r12
+	popq	%r13
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	.cfi_remember_state
+	.cfi_def_cfa 7, 8
+	ret
+.L150:
+	.cfi_restore_state
+	leaq	.LC25(%rip), %rcx
+	leaq	.LC18(%rip), %rdx
+	movq	%r13, %rdi
+	xorl	%eax, %eax
+	movl	$1, %esi
+	call	__fprintf_chk@PLT
+	movq	%r13, %rcx
+	movl	$11, %edx
+	movl	$1, %esi
+	leaq	.LC19(%rip), %rdi
+	call	fwrite@PLT
+	movq	%r15, %r8
+	xorl	%ecx, %ecx
+	movl	$1, %esi
+	leaq	.LC20(%rip), %rdx
+	movq	%r13, %rdi
+	xorl	%eax, %eax
+	call	__fprintf_chk@PLT
+	movl	$1, %esi
+	movq	%r13, %rdi
+	xorl	%eax, %eax
+	leaq	.LC26(%rip), %r8
+	leaq	.LC22(%rip), %rcx
+	leaq	.LC23(%rip), %rdx
+	call	__fprintf_chk@PLT
+	movq	%r13, %rcx
+	movl	$38, %edx
+	movl	$1, %esi
+	leaq	.LC24(%rip), %rdi
+	call	fwrite@PLT
+	leaq	.LC7(%rip), %rcx
+	jmp	.L124
+.L122:
+	movq	%r14, %rdx
+	andl	$1, %r14d
+	pxor	%xmm0, %xmm0
+	shrq	%rdx
+	orq	%r14, %rdx
+	cvtsi2sdq	%rdx, %xmm0
+	addsd	%xmm0, %xmm0
+	jmp	.L123
+.L147:
+	orq	$0, -8(%rsp,%rdx)
+	jmp	.L108
+.L151:
+	call	__stack_chk_fail@PLT
+	.cfi_endproc
+.LFE90:
+	.size	main, .-main
+	.section	.rodata.cst8,"aM",@progbits,8
+	.align 8
+.LC15:
+	.long	0
+	.long	1093567616
+	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	 1f - 0f
+	.long	 4f - 1f
+	.long	 5
+0:
+	.string	 "GNU"
+1:
+	.align 8
+	.long	 0xc0000002
+	.long	 3f - 2f
+2:
+	.long	 0x3
+3:
+	.align 8
+4:
+vlab@HYVLAB8:~/Desktop/C_output$ 
+vlab@HYVLAB8:~/Desktop/C_output$ awk -f show.awk test.s > test.t
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.t
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+vlab@HYVLAB8:~/Desktop/C_output$ awk -f show.awk test.s
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+vlab@HYVLAB8:~/Desktop/C_output$ rm test.s
+vlab@HYVLAB8:~/Desktop/C_output$ mv test.exe ~/Desktop/
+vlab@HYVLAB8:~/Desktop/C_output$ cd ..
+vlab@HYVLAB8:~/Desktop$ ls
+'COMPANY TRAINING'   C_output   herdtools7   Litmus   litmus-tests-riscv   Litmus_test.txt   session_output.txt   test.exe   test.litmus
+vlab@HYVLAB8:~/Desktop$ cp test.exe ~/Desktop/C_output/
+vlab@HYVLAB8:~/Desktop$ herd7 test.litmus test.exe 
+Test SB Allowed
+States 4
+0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:EAX=0 /\ 1:EAX=0)
+Observation SB Sometimes 1 3
+Time SB 0.00
+Hash=2d53e83cd627ba17ab11c875525e078b
+
+
+Fatal: File "test.exe" Adios
+Fatal error: exception Failure("File \"test.exe\", line 1, character 0: splitter error in sublexer first line")
+vlab@HYVLAB8:~/Desktop$ ^C
+vlab@HYVLAB8:~/Desktop$ cp test.litmus ~/Desktop/C_output/
+vlab@HYVLAB8:~/Desktop$ cd C_output/
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe     test.t   utils.h
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.litmus  utils.c  utils.o
+vlab@HYVLAB8:~/Desktop/C_output$ herd7 test.litmus test.c
+Test SB Allowed
+States 4
+0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:EAX=0 /\ 1:EAX=0)
+Observation SB Sometimes 1 3
+Time SB 0.00
+Hash=2d53e83cd627ba17ab11c875525e078b
+
+
+Fatal: File "test.c" Adios
+Fatal error: exception Failure("File \"test.c\", line 1, character 0: splitter error in sublexer first line")
+vlab@HYVLAB8:~/Desktop/C_output$ chmod +x run.sh
+vlab@HYVLAB8:~/Desktop/C_output$ ./run.sh 
+Wednesday 31 July 2024 02:14:03 PM IST
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for test.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86 SB
+"Fre PodWR Fre PodWR"
+
+{
+ [x]=0;
+ [y]=0;
+}
+ P0          | P1          ;
+ MOV [x],$1  | MOV [y],$1  ;
+ MOV EAX,[y] | MOV EAX,[x] ;
+
+locations [x; y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+Generated assembler
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+Test SB Allowed
+Histogram (4 states)
+2     *>0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+499997:>0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+500000:>0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+1     :>0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+
+Witnesses
+Positive: 2, Negative: 999998
+Condition exists (0:EAX=0 /\ 1:EAX=0) is validated
+Hash=2d53e83cd627ba17ab11c875525e078b
+Observation SB Sometimes 2 999998
+Time SB 0.14
+Revision exported, version 7.57
+Command line: litmus7 test.litmus -o C_output/
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+GCC=gcc
+LITMUSOPTS=
+Wednesday 31 July 2024 02:14:03 PM IST
+vlab@HYVLAB8:~/Desktop/C_output$ herd7 test.litmus
+Test SB Allowed
+States 4
+0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:EAX=0 /\ 1:EAX=0)
+Observation SB Sometimes 1 3
+Time SB 0.00
+Hash=2d53e83cd627ba17ab11c875525e078b
+
+vlab@HYVLAB8:~/Desktop/C_output$ herd7 test.litmus test.c
+Test SB Allowed
+States 4
+0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:EAX=0 /\ 1:EAX=0)
+Observation SB Sometimes 1 3
+Time SB 0.00
+Hash=2d53e83cd627ba17ab11c875525e078b
+
+
+Fatal: File "test.c" Adios
+Fatal error: exception Failure("File \"test.c\", line 1, character 0: splitter error in sublexer first line")
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe     test.t   utils.h
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.litmus  utils.c  utils.o
+vlab@HYVLAB8:~/Desktop/C_output$ cat Makefile 
+GCC=gcc
+GCCOPTS=-Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread
+LINKOPTS=
+SRC=\
+ test.c\
+
+EXE=$(SRC:.c=.exe)
+T=$(SRC:.c=.t)
+
+all: $(EXE) $(T)
+
+clean:
+	/bin/rm -f *.o *.s *.t *.exe *~
+
+cleansource:
+	/bin/rm -f *.o *.c *.h *.s *~
+
+outs.o: outs.c
+	$(GCC) $(GCCOPTS) -O2 -c outs.c
+
+utils.o: utils.c
+	$(GCC) $(GCCOPTS) -O2 -c utils.c
+
+litmus_rand.o: litmus_rand.c
+	$(GCC) $(GCCOPTS) -O2 -c litmus_rand.c
+
+UTILS=outs.o utils.o litmus_rand.o
+
+%.exe:%.s $(UTILS)
+	$(GCC) $(GCCOPTS) $(LINKOPTS) -o $@ $(UTILS) $<
+
+%.s:%.c
+	$(GCC) $(GCCOPTS) -S $<
+
+%.t:%.s
+	awk -f show.awk $< > $@
+
+vlab@HYVLAB8:~/Desktop/C_output$ herd7 test.litmus
+Test SB Allowed
+States 4
+0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:EAX=0 /\ 1:EAX=0)
+Observation SB Sometimes 1 3
+Time SB 0.01
+Hash=2d53e83cd627ba17ab11c875525e078b
+
+vlab@HYVLAB8:~/Desktop/C_output$ cat test,l
+cat: test,l: No such file or directory
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.litmus 
+X86 SB
+"Fre PodWR Fre PodWR"
+{ x=0; y=0; }
+P0 | P1 ;
+MOV [x],$1 | MOV [y],$1 ;
+MOV EAX,[y] | MOV EAX,[x] ;
+locations [x;y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+vlab@HYVLAB8:~/Desktop/C_output$ vi test.litmus 
+vlab@HYVLAB8:~/Desktop/C_output$ herd7 test.litmus
+Test SB Allowed
+States 4
+0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+Witnesses
+Positive: 1 Negative: 3
+Condition exists (0:EAX=0 /\ 1:EAX=1)
+Observation SB Sometimes 1 3
+Time SB 0.00
+Hash=2d53e83cd627ba17ab11c875525e078b
+
+vlab@HYVLAB8:~/Desktop/C_output$ vi test.litmus 
+vlab@HYVLAB8:~/Desktop/C_output$ herd7 test.litmus
+Warning: File "test.litmus", line 9, characters 0-0: unexpected '' (in final) (User error)
+vlab@HYVLAB8:~/Desktop/C_output$ vi test.litmus 
+vlab@HYVLAB8:~/Desktop/C_output$ herd7 test.litmus
+Test SB Allowed
+States 4
+0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+No
+Witnesses
+Positive: 0 Negative: 4
+Condition exists (0:EAX=0 /\ 1:EAX=2)
+Observation SB Never 0 4
+Time SB 0.00
+Hash=2d53e83cd627ba17ab11c875525e078b
+
+vlab@HYVLAB8:~/Desktop/C_output$ ./run.sh
+Wednesday 31 July 2024 02:29:17 PM IST
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for test.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86 SB
+"Fre PodWR Fre PodWR"
+
+{
+ [x]=0;
+ [y]=0;
+}
+ P0          | P1          ;
+ MOV [x],$1  | MOV [y],$1  ;
+ MOV EAX,[y] | MOV EAX,[x] ;
+
+locations [x; y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+Generated assembler
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+Test SB Allowed
+Histogram (4 states)
+1     *>0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+499997:>0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+499999:>0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+3     :>0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+
+Witnesses
+Positive: 1, Negative: 999999
+Condition exists (0:EAX=0 /\ 1:EAX=0) is validated
+Hash=2d53e83cd627ba17ab11c875525e078b
+Observation SB Sometimes 1 999999
+Time SB 0.14
+Revision exported, version 7.57
+Command line: litmus7 test.litmus -o C_output/
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+GCC=gcc
+LITMUSOPTS=
+Wednesday 31 July 2024 02:29:17 PM IST
+

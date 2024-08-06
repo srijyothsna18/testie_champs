@@ -1,0 +1,1408 @@
+vlab@HYVLAB8:~/Desktop$ sudo apt-get install opam make gcc
+[sudo] password for vlab: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+gcc is already the newest version (4:9.3.0-1ubuntu2).
+gcc set to manually installed.
+make is already the newest version (4.2.1-1.2).
+make set to manually installed.
+opam is already the newest version (2.0.5-1ubuntu1).
+0 upgraded, 0 newly installed, 0 to remove and 278 not upgraded.
+vlab@HYVLAB8:~/Desktop$ opam init
+
+<><> Required setup - please read <><><><><>
+
+  In normal operation, opam only alters files within ~/.opam.
+
+  However, to best integrate with your system, some environment variables
+  should be set. If you allow it to, this initialisation step will update
+  your bash configuration by adding the following line to ~/.profile:
+
+    test -r /home/vlab/.opam/opam-init/init.sh && . /home/vlab/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+  Otherwise, every time you want to access your opam installation, you will
+  need to run:
+
+    eval $(opam env)
+
+  You can always re-run this setup with 'opam init' later.
+
+Do you want opam to modify ~/.profile?
+[N/y/f]
+(default is 'no', use 'f' to choose a
+different file) no
+A hook can be added to opam's init scripts
+to ensure that the shell remains in sync
+with the opam environment when they are
+loaded. Set that up? [y/N] Y
+vlab@HYVLAB8:~/Desktop$ eval $(opam env)
+vlab@HYVLAB8:~/Desktop$ opam switch create 4.02.3
+
+<><> Gathering sources ><><><><><><><><><><>
+[ocaml-base-compiler.4.02.3] downloaded from cache at https://opam.ocaml.org/cache
+[ocaml-base-compiler.4.02.3/alt-signal-stack.patch] downloaded from https://opam.ocaml.org/cache
+[ocaml-base-compiler.4.02.3/fix-gcc10.patch] downloaded from https://opam.ocaml.org/cache
+[ocaml-base-compiler.4.02.3/gpr1330.patch] downloaded from https://opam.ocaml.org/cache
+
+<><> Processing actions <><><><><><><><><><>
+-> installed base-bigarray.base
+-> installed base-threads.base
+-> installed base-unix.base
+-> installed ocaml-base-compiler.4.02.3
+-> installed ocaml-config.1
+-> installed ocaml.4.02.3
+-> installed base-ocamlbuild.base
+Done.
+# Run eval $(opam env) to update the current shell environment
+vlab@HYVLAB8:~/Desktop$ opam install menhir
+The following actions will be performed:
+  - install ocaml-secondary-compiler
+          4.08.1-1
+          [required by
+          ocamlfind-secondary]
+  - install ocamlfind
+          1.9.6
+          [required by
+          ocamlfind-secondary]
+  - install ocamlfind-secondary
+          1.9.6    [required by dune]
+  - install dune
+          3.16.0   [required by menhir]
+  - install menhirSdk
+          20211012 [required by menhir]
+  - install menhirLib
+          20211012 [required by menhir]
+  - install menhir
+          20211012
+===== 7 to install =====
+Do you want to continue? [Y/n] Y
+
+<><> Gathering sources ><><><><><><><><><>
+[dune.3.16.0] found in cache
+[menhir.20211012] downloaded from cache at https://opam.ocaml.org/cache
+[menhirSdk.20211012] downloaded from cache at https://opam.ocaml.org/cache
+[ocaml-secondary-compiler.4.08.1-1] downloaded from cache at https://opam.ocaml.org/cache
+[ocamlfind.1.9.6] found in cache
+[ocamlfind-secondary.1.9.6] found in cache
+[ocaml-secondary-compiler.4.08.1-1/0001-Don-t-build-manpages-for-stdlib-docs.patch] downloaded from https://opam.ocaml.org/cache
+[ocamlfind-secondary.1.9.6/META.in] downloaded from https://opam.ocaml.org/cache
+[ocaml-secondary-compiler.4.08.1-1/0001-Fix-failure-to-install-tools-links.patch] downloaded from https://opam.ocaml.org/cache
+[menhirLib.20211012] downloaded from cache at https://opam.ocaml.org/cache
+[ocamlfind-secondary.1.9.6/ocaml-secondary-compiler.conf.in] downloaded from https://opam.ocaml.org/cache
+[ocaml-secondary-compiler.4.08.1-1/alt-signal-stack.patch] downloaded from https://opam.ocaml.org/cache
+[ocaml-secondary-compiler.4.08.1-1/fix-gcc10.patch] downloaded from https://opam.ocaml.org/cache
+
+<><> Processing actions <><><><><><><><><>
+-> installed ocamlfind.1.9.6
+-> installed ocaml-secondary-compiler.4.08.1-1
+-> installed ocamlfind-secondary.1.9.6
+-> installed dune.3.16.0
+-> installed menhirSdk.20211012
+-> installed menhirLib.20211012
+-> installed menhir.20211012
+Done.
+vlab@HYVLAB8:~/Desktop$ eval $(opam env)
+vlab@HYVLAB8:~/Desktop$ cd herdtools7/
+vlab@HYVLAB8:~/Desktop/herdtools7$ make all
+sh ./version-gen.sh $HOME
+dune build -j 4 --profile release
+File "lib/dune", line 69, characters 23-29:
+69 |  (libraries str asllib zarith)
+                            ^^^^^^
+Error: Library "zarith" not found.
+-> required by library "herdtools" in _build/default/lib
+-> required by executables herd_catalogue_regression_test,
+   herd_diycross_regression_test, herd_regression_test, lint_shelves,
+   herd_redirect, herd_test and herd_promote in internal/dune:2
+-> required by _build/default/internal/herd_catalogue_regression_test.exe
+-> required by alias internal/all
+-> required by alias default in dune:8
+Done: 28% (27/96, 69 left, 1 failed) (job                                         Done: 12% (35/280, 245 left, 1 failed) (j                                         File "asllib/dune", line 37, characters 22-28:
+37 |  (libraries menhirLib zarith))
+                           ^^^^^^
+Error: Library "zarith" not found.
+-> required by library "herdtools7.asllib" in _build/default/asllib
+-> required by _build/default/META.herdtools7
+-> required by _build/install/default/lib/herdtools7/META
+-> required by _build/default/herdtools7.install
+-> required by alias install
+-> required by alias default in dune:8
+Done: 12% (35/280, 245 left, 1 failed) (j                                         Done: 13% (37/280, 243 left, 1 failed) (j                                         Done: 13% (37/281, 244 left, 2 failed) (j                                         Done: 11% (38/335, 297 left, 2 failed) (j                                         Done: 30% (120/389, 269 left, 2 failed) (                                         Done: 29% (120/405, 285 left, 2 failed) (                                         Done: 27% (136/499, 363 left, 2 failed) (                                         Done: 23% (142/604, 462 left, 2 failed) (                                         Done: 20% (147/708, 561 left, 2 failed) (                                         File "asllib/dune", lines 10-11, characters 0-26:
+10 | (menhir
+11 |  (modules Parser))
+Fatal error: exception File "src/action.ml", line 78, characters 6-12: Assertion failed
+Done: 20% (147/708, 561 left, 2 failed) (                                         ocamllex warning:
+File "asllib/Lexer.mll", line 117, character 50: unescaped newline in string.
+ocamllex warning:
+File "asllib/Lexer.mll", line 118, character 28: unescaped newline in string.
+Done: 20% (147/708, 561 left, 2 failed) (                                         File "asllib/AST.mli", line 297, characters 15-16:
+Error: Syntax error
+Done: 20% (147/708, 561 left, 2 failed) (                                         Done: 21% (156/710, 554 left, 3 failed) (                                         File "asllib/dune", lines 13-15, characters 0-60:
+13 | (menhir
+14 |  (modules Parser0)
+15 |  (flags --unused-tokens --table))
+Fatal error: exception File "src/action.ml", line 78, characters 6-12: Assertion failed
+Done: 21% (156/710, 554 left, 3 failed) (                                         Done: 21% (166/764, 598 left, 5 failed) (                                         File "asllib/diet.ml", line 443, characters 27-29:
+Warning 14: illegal backslash escape in string.
+Done: 21% (166/764, 598 left, 5 failed) (                                         File "asllib/Interpreter.ml", line 108, characters 8-11:
+Error: Syntax error: operator expected.
+Done: 21% (166/764, 598 left, 5 failed) (                                         Done: 30% (231/764, 533 left, 5 failed) (                                         Done: 31% (245/769, 524 left, 6 failed) (                                         File "asllib/StaticModel.ml", line 97, characters 35-37:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 107, characters 34-36:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 128, characters 19-21:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 129, characters 19-21:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 141, characters 33-35:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 143, characters 49-51:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 145, characters 39-41:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 622, characters 28-30:
+Error: Syntax error
+Done: 31% (245/769, 524 left, 6 failed) (                                         File "asllib/types.ml", line 713, characters 26-28:
+Error: Syntax error
+Done: 31% (245/769, 524 left, 6 failed) (                                         Done: 33% (256/769, 513 left, 8 failed) (                                         Done: 32% (291/897, 606 left, 8 failed) (                                         File "asllib/Typing.ml", line 181, characters 26-28:
+Error: Syntax error
+Done: 32% (291/897, 606 left, 8 failed) (                                         Done: 35% (337/958, 621 left, 9 failed) (                                         Done: 36% (359/978, 619 left, 9 failed) (                                         Done: 37% (375/1005, 630 left, 9 failed)                                          Done: 37% (384/1036, 652 left, 9 failed)                                          Done: 38% (441/1155, 714 left, 9 failed)                                          Done: 38% (473/1214, 741 left, 9 failed)                                          Done: 39% (486/1218, 732 left, 9 failed)                                          Done: 41% (529/1287, 758 left, 9 failed)                                          Done: 42% (555/1305, 750 left, 9 failed)                                          Done: 43% (572/1320, 748 left, 9 failed)                                          Done: 44% (584/1320, 736 left, 9 failed)                                          Done: 45% (610/1339, 729 left, 9 failed)                                          Done: 46% (642/1369, 727 left, 9 failed)                                          Done: 47% (646/1369, 723 left, 9 failed)                                          Done: 47% (650/1369, 719 left, 9 failed)                                          Done: 49% (679/1382, 703 left, 9 failed)                                          Done: 50% (701/1382, 681 left, 9 failed)                                          Done: 53% (741/1382, 641 left, 9 failed)                                          Done: 57% (810/1405, 595 left, 9 failed)                                          Done: 58% (834/1430, 596 left, 9 failed)                                          Done: 59% (856/1448, 592 left, 9 failed)                                          Done: 59% (874/1462, 588 left, 9 failed)                                          Done: 61% (893/1462, 569 left, 9 failed)                                          Done: 59% (906/1516, 610 left, 9 failed)                                          Done: 60% (919/1519, 600 left, 9 failed)                                          Done: 60% (929/1536, 607 left, 9 failed)                                          Done: 61% (947/1543, 596 left, 9 failed)                                          Done: 62% (967/1543, 576 left, 9 failed)                                          Done: 63% (998/1564, 566 left, 9 failed)                                          Done: 65% (1048/1602, 554 left, 9 failed)                                         Done: 65% (1065/1632, 567 left, 9 failed)                                         Done: 65% (1093/1674, 581 left, 9 failed)                                         Done: 65% (1112/1695, 583 left, 9 failed)                                         Done: 66% (1138/1717, 579 left, 9 failed)                                         Done: 66% (1156/1729, 573 left, 9 failed)                                         Done: 67% (1171/1738, 567 left, 9 failed)                                         Done: 68% (1209/1757, 548 left, 9 failed)                                         Done: 68% (1245/1806, 561 left, 9 failed)                                         Done: 69% (1265/1818, 553 left, 9 failed)                                         Done: 69% (1294/1871, 577 left, 9 failed)                                         Done: 69% (1321/1896, 575 left, 9 failed)                                         Done: 70% (1341/1914, 573 left, 9 failed)                                         Done: 67% (1347/1987, 640 left, 9 failed)                                         Done: 67% (1352/1991, 639 left, 9 failed)                                         Done: 65% (1357/2070, 713 left, 9 failed)                                         Done: 65% (1369/2082, 713 left, 9 failed)                                         Done: 65% (1375/2089, 714 left, 9 failed)                                         Done: 65% (1382/2095, 713 left, 9 failed)                                         Done: 66% (1396/2110, 714 left, 9 failed)                                         Done: 65% (1422/2170, 748 left, 9 failed)                                         File "herd/AArch64ASLSem.ml", line 35, characters 8-11:
+Error: Syntax error: operator expected.
+Done: 65% (1422/2170, 748 left, 9 failed)                                         Done: 65% (1437/2179, 742 left, 10 failed                                         Done: 66% (1446/2188, 742 left, 10 failed                                         File "herd/AArch64Sem.ml", line 1743, characters 24-25:
+Error: Syntax error
+Done: 66% (1446/2188, 742 left, 10 failed                                         Done: 66% (1455/2200, 745 left, 11 failed                                         Done: 67% (1482/2200, 718 left, 11 failed                                         Done: 67% (1486/2203, 717 left, 11 failed                                         Done: 67% (1497/2215, 718 left, 11 failed                                         Done: 67% (1512/2232, 720 left, 11 failed                                         Done: 67% (1535/2282, 747 left, 11 failed                                         Done: 67% (1550/2285, 735 left, 11 failed                                         Done: 68% (1563/2291, 728 left, 11 failed                                         Done: 68% (1577/2297, 720 left, 11 failed                                         Done: 68% (1584/2301, 717 left, 11 failed                                         Done: 69% (1606/2327, 721 left, 11 failed                                         Done: 69% (1614/2334, 720 left, 11 failed                                         Done: 69% (1623/2341, 718 left, 11 failed                                         Done: 65% (1625/2498, 873 left, 11 failed                                         Done: 65% (1627/2498, 871 left, 11 failed                                         Done: 64% (1627/2540, 913 left, 11 failed                                         Done: 64% (1627/2540, 913 left, 11 failed                                         Done: 64% (1628/2540, 912 left, 11 failed                                         Done: 64% (1629/2540, 911 left, 11 failed                                         Done: 64% (1630/2540, 910 left, 11 failed                                         Done: 63% (1633/2563, 930 left, 11 failed                                         make: *** [Makefile:35: just-build] Error 1
+vlab@HYVLAB8:~/Desktop/herdtools7$ ls _build/install/default/bin
+aslbundler  mcat2includes7  mobserved7
+aslref      mcmp7           moutcomes7
+atomize7    mcompare7       mprog7
+atoms7      mcond7          mproj7
+bento       mcycles7        mrcu7
+cat2html7   mdiag7          mselect7
+classify7   mdiff7          mshowhashes7
+diy7        mexpand7        msort7
+diycross7   mfilter7        msum7
+diyone7     mfind7          mtopos7
+gen_theme7  mflags7         mtrue7
+herd7       mhash7          nexts7
+jingle7     miaou7          norm7
+klitmus7    mlisa2c7        readRelax7
+knames7     mlock7          recond7
+ksort7      mlog2cond7      rehash7
+litmus7     mlog2name7      splitcond7
+madd7       mmixer7         splitdot7
+mapply7     mnames7
+vlab@HYVLAB8:~/Desktop/herdtools7$ export PATH=$PATH:$(pwd)/_build/install/default/bin
+vlab@HYVLAB8:~/Desktop/herdtools7$ echo 'export PATH=$PATH:$(pwd)/_build/install/default/bin' >> ~/.bashrc
+vlab@HYVLAB8:~/Desktop/herdtools7$ source ~/.bashrc
+vlab@HYVLAB8:~/Desktop/herdtools7$ litmus --version
+
+Command 'litmus' not found, but can be installed with:
+
+sudo apt install litmus
+
+vlab@HYVLAB8:~/Desktop/herdtools7$ litmus7 --version
+litmus7: unknown option '--version'.
+Usage: litmus7 [opts]* filename
+  -v  be verbose
+  -version  show version number and exit
+  -libdir  show installation directory and exit
+  -set-libdir <path> set installation directory to <path>
+  -switch switch something
+  -o <name> cross compilation to directory or tar file <name>
+  -cross <name> same as -o above, with README and Makefile
+  -crossrun <none|adb|qemu[:exec]|host[:port]> run tests on remote machine or simulator, default none
+  -adbdir <dir> target directory on device in mode -crossrun adb, default /data/local/tmp
+  -mach <name> read configuration file name.cfg
+  -index <@name> save index of compiled tests in file <@name>
+  -hexa  hexadecimal output
+  -no <name> do not handle tests whose edge cycles are listed in file <name>
+  -a <n> Run maximal number of tests concurrently for n available cores (default, run one test)
+  -avail <n> alias for -a <n>
+  -limit <bool> run tests with n threads or less, default true
+  -s <n[kKmM]?> size of test, default 100000
+  -size_of_test <n[kKmM]?> alias for -s, default 100000
+  -r <n[kKmM]?> number of runs, default 10
+  -number_of_run <n[kKmM]?> alias for -r, default 10
+  -noccs <n[kKmM]?> upper bound on numbers of target outcomes (presi only), default 1
+  -timelimit <float> bound on runtime (presi only)
+  -variant <tags> where tags in {s128,self,mixed,vmsa,telechat,handled,fatal,faultToNext}, select a variation
+  -barrier <user|userfence|user2|userfence2|pthread|none|timebase> set type of barriers, default user
+  -delay set timebase delay (default X86=2048, PPC=1024, ARM=1024, C=2048)
+  -vb <bool> show time of loop synchronisation, default false
+  -vp <bool> show some additional information on test as a prelude to test output
+  -driver <C|shell|xcode> select language of driver, default shell
+  -detached <bool> used detached POSIX threads
+  -thread <std|detached|cached> set thread nature, default std
+  -launch <fixed|changing> set type of pthread lauch, default changing
+  -mem <direct|indirect> set memory mode, default direct
+  -st <none|adapt|<int>> stride for scanning memory, default none
+  -stride <none|adapt|<int>> stride for scanning memory, default none
+  -preload <no|random|custom|static|static2> set preload mode, default random
+  -collect <local|after|both> time when results are collected, default after
+  -safer <no|all|write> safer mode, default write
+  -mode <std|presi|kvm> output style for C files, default std
+  -usearch <gen|trad> use generated/traditional arch description, default trad
+  -cautious <bool> insert additional memory barriers, default false
+  -affinity <none|random|custom|incr<n>|scan> attach threads to logical processors, default none
+  -i <n> alias for -affinity incr<n>
+  -procs <int list> specify order of logical processors, implies -affinity incr1
+  -p <int list> alias for -procs <int list>
+  -force_affinity <bool> force affinity setting, useful to circumvent power management, default false
+  -smtmode <none|seq|end> how logical processors from the same core are numbered, default none
+  -smt <n> specify <n>-ways SMT, default 2
+  -nsockets <n> specify <n> sockets, default 1
+  -alloc <dynamic|static|before> allocation mode, default: dynamic most often, static for -mode presi/kvm -driver shell
+  -doublealloc <bool> perform a malloc/free once before allocating for real, default false
+  -contiguous <bool> allocate shared locations as a big chunk of memory, default false
+  -noalign <all|none|<var list>> specify non alignment
+  -speedcheck <no|some|all> stop test as soon as condition is settled, default no
+  -ccopts <flags> set gcc compilation flags (default X86="-fomit-frame-pointer -O2", PPC="-fomit-frame-pointer -O2", ARM="-O2", C="")
+  -makevar <line> add line at beginning of Makefile
+  -gcc <name> name of gcc, default gcc
+  -c11 <bool> enable the C11 standard, default false
+  -stdio <bool> use/do not use stdio
+  -ascall <bool> tested code is in a function, default false
+  -linkopt <flags> set gcc link option(s), default 
+  -gas <bool> emit Gnu as extensions (default Linux/Mac=true, AIX=false)
+  -os <linux|mac|aix|freebsd|android8> target operating system, default linux
+  -ws <w32|w64|wXX> word_size (default X86=wXX, PPC=wXX, ARM=wXX, C=wXX)
+  -carch <AArch64|ARM|MIPS|PPC|X86|RISCV|X86_64> Target architechture (C arch only)
+  -pldw <bool> use pldw instruction (ARM), default true
+  -cacheflush <bool> use cache flush instruction (AArch64), default true
+  -sleep <n> sleep n seconds between tests, default 0
+  -exit <bool> exit status reflects final condition success or failure, default false
+  -loop <n[kKmM]?> <n> insert assembly code in a loop of size <n>
+  -kind <bool> show kind information in output, default true
+  -names <name> specify file of names, can be repeated
+  -excl <name> specify file of names to be excluded, can be repeated
+  -rename <name> specify a rename mapping, hashes are checked
+  -kinds <file> specify kinds of tests (can be repeated)
+  -conds <file> specify conditions of tests (can be repeated)
+  -hints <file> read hints in <file>
+  -nstates <file> specify number of states mapping
+  -isync <bool> undocumented, default false
+  -syncmacro <n> undocumented, default -1
+  -xy <bool> undocumented, default false
+  -help  Display this list of options
+  --help  Display this list of options
+vlab@HYVLAB8:~/Desktop/herdtools7$ litmus -version
+
+Command 'litmus' not found, but can be installed with:
+
+sudo apt install litmus
+
+vlab@HYVLAB8:~/Desktop/herdtools7$ litmus -v
+
+Command 'litmus' not found, but can be installed with:
+
+sudo apt install litmus
+
+vlab@HYVLAB8:~/Desktop/herdtools7$ litmus7 --version
+litmus7: unknown option '--version'.
+Usage: litmus7 [opts]* filename
+  -v  be verbose
+  -version  show version number and exit
+  -libdir  show installation directory and exit
+  -set-libdir <path> set installation directory to <path>
+  -switch switch something
+  -o <name> cross compilation to directory or tar file <name>
+  -cross <name> same as -o above, with README and Makefile
+  -crossrun <none|adb|qemu[:exec]|host[:port]> run tests on remote machine or simulator, default none
+  -adbdir <dir> target directory on device in mode -crossrun adb, default /data/local/tmp
+  -mach <name> read configuration file name.cfg
+  -index <@name> save index of compiled tests in file <@name>
+  -hexa  hexadecimal output
+  -no <name> do not handle tests whose edge cycles are listed in file <name>
+  -a <n> Run maximal number of tests concurrently for n available cores (default, run one test)
+  -avail <n> alias for -a <n>
+  -limit <bool> run tests with n threads or less, default true
+  -s <n[kKmM]?> size of test, default 100000
+  -size_of_test <n[kKmM]?> alias for -s, default 100000
+  -r <n[kKmM]?> number of runs, default 10
+  -number_of_run <n[kKmM]?> alias for -r, default 10
+  -noccs <n[kKmM]?> upper bound on numbers of target outcomes (presi only), default 1
+  -timelimit <float> bound on runtime (presi only)
+  -variant <tags> where tags in {s128,self,mixed,vmsa,telechat,handled,fatal,faultToNext}, select a variation
+  -barrier <user|userfence|user2|userfence2|pthread|none|timebase> set type of barriers, default user
+  -delay set timebase delay (default X86=2048, PPC=1024, ARM=1024, C=2048)
+  -vb <bool> show time of loop synchronisation, default false
+  -vp <bool> show some additional information on test as a prelude to test output
+  -driver <C|shell|xcode> select language of driver, default shell
+  -detached <bool> used detached POSIX threads
+  -thread <std|detached|cached> set thread nature, default std
+  -launch <fixed|changing> set type of pthread lauch, default changing
+  -mem <direct|indirect> set memory mode, default direct
+  -st <none|adapt|<int>> stride for scanning memory, default none
+  -stride <none|adapt|<int>> stride for scanning memory, default none
+  -preload <no|random|custom|static|static2> set preload mode, default random
+  -collect <local|after|both> time when results are collected, default after
+  -safer <no|all|write> safer mode, default write
+  -mode <std|presi|kvm> output style for C files, default std
+  -usearch <gen|trad> use generated/traditional arch description, default trad
+  -cautious <bool> insert additional memory barriers, default false
+  -affinity <none|random|custom|incr<n>|scan> attach threads to logical processors, default none
+  -i <n> alias for -affinity incr<n>
+  -procs <int list> specify order of logical processors, implies -affinity incr1
+  -p <int list> alias for -procs <int list>
+  -force_affinity <bool> force affinity setting, useful to circumvent power management, default false
+  -smtmode <none|seq|end> how logical processors from the same core are numbered, default none
+  -smt <n> specify <n>-ways SMT, default 2
+  -nsockets <n> specify <n> sockets, default 1
+  -alloc <dynamic|static|before> allocation mode, default: dynamic most often, static for -mode presi/kvm -driver shell
+  -doublealloc <bool> perform a malloc/free once before allocating for real, default false
+  -contiguous <bool> allocate shared locations as a big chunk of memory, default false
+  -noalign <all|none|<var list>> specify non alignment
+  -speedcheck <no|some|all> stop test as soon as condition is settled, default no
+  -ccopts <flags> set gcc compilation flags (default X86="-fomit-frame-pointer -O2", PPC="-fomit-frame-pointer -O2", ARM="-O2", C="")
+  -makevar <line> add line at beginning of Makefile
+  -gcc <name> name of gcc, default gcc
+  -c11 <bool> enable the C11 standard, default false
+  -stdio <bool> use/do not use stdio
+  -ascall <bool> tested code is in a function, default false
+  -linkopt <flags> set gcc link option(s), default 
+  -gas <bool> emit Gnu as extensions (default Linux/Mac=true, AIX=false)
+  -os <linux|mac|aix|freebsd|android8> target operating system, default linux
+  -ws <w32|w64|wXX> word_size (default X86=wXX, PPC=wXX, ARM=wXX, C=wXX)
+  -carch <AArch64|ARM|MIPS|PPC|X86|RISCV|X86_64> Target architechture (C arch only)
+  -pldw <bool> use pldw instruction (ARM), default true
+  -cacheflush <bool> use cache flush instruction (AArch64), default true
+  -sleep <n> sleep n seconds between tests, default 0
+  -exit <bool> exit status reflects final condition success or failure, default false
+  -loop <n[kKmM]?> <n> insert assembly code in a loop of size <n>
+  -kind <bool> show kind information in output, default true
+  -names <name> specify file of names, can be repeated
+  -excl <name> specify file of names to be excluded, can be repeated
+  -rename <name> specify a rename mapping, hashes are checked
+  -kinds <file> specify kinds of tests (can be repeated)
+  -conds <file> specify conditions of tests (can be repeated)
+  -hints <file> read hints in <file>
+  -nstates <file> specify number of states mapping
+  -isync <bool> undocumented, default false
+  -syncmacro <n> undocumented, default -1
+  -xy <bool> undocumented, default false
+  -help  Display this list of options
+  --help  Display this list of options
+vlab@HYVLAB8:~/Desktop/herdtools7$ cd ..
+vlab@HYVLAB8:~/Desktop$ ls
+'COMPANY TRAINING'   Dockerfile   herdtools7  'Keil uVision5.desktop'  'Keil uVision5.LNK'   Litmus   litmus-tests-riscv   test.litmus
+vlab@HYVLAB8:~/Desktop$ litmus -version test.litmus
+
+Command 'litmus' not found, but can be installed with:
+
+sudo apt install litmus
+
+vlab@HYVLAB8:~/Desktop$ litmus7 -version test.litmus
+7.57
+vlab@HYVLAB8:~/Desktop$ litmus7 -version 
+7.57
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+P0             | P1
+MOV R0, #1     | MOV R1, #1
+STR R0, [X]    | STR R1, [Y]
+LDR R2, [Y]    | LDR R3, [X]
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o test.c
+Fatal error: exception Misc.Fatal("directory test.c does not exist")
+vlab@HYVLAB8:~/Desktop$ touch test.c
+vlab@HYVLAB8:~/Desktop$ ls
+'COMPANY TRAINING'
+ Dockerfile
+ herdtools7
+'Keil uVision5.desktop'
+'Keil uVision5.LNK'
+ Litmus
+ litmus-tests-riscv
+ test.c
+ test.litmus
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o test.c
+Fatal error: exception Misc.Fatal("directory test.c does not exist")
+vlab@HYVLAB8:~/Desktop$ rm -r test.c
+vlab@HYVLAB8:~/Desktop$ vi test.c
+vlab@HYVLAB8:~/Desktop$ ls
+'COMPANY TRAINING'   Dockerfile   herdtools7  'Keil uVision5.desktop'  'Keil uVision5.LNK'   Litmus   litmus-tests-riscv   test.c   test.litmus
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o test.c
+Fatal error: exception Misc.Fatal("directory test.c does not exist")
+vlab@HYVLAB8:~/Desktop$ litmus test.litmus -o test.c
+
+Command 'litmus' not found, but can be installed with:
+
+sudo apt install litmus
+
+vlab@HYVLAB8:~/Desktop$ litmus test.litmus -o C_output
+
+Command 'litmus' not found, but can be installed with:
+
+sudo apt install litmus
+
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output
+Fatal error: exception Misc.Fatal("directory C_output does not exist")
+vlab@HYVLAB8:~/Desktop$ mkdir C_output
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output
+File "test.litmus" exception Failure("File \"test.litmus\", line 1, character 0: splitter error in sublexer first line")
+vlab@HYVLAB8:~/Desktop$ cat <<EOF > test.litmus
+> Test test_name
+> 
+> {}
+> 
+> P0             | P1
+> MOV R0, #1     | MOV R1, #1
+> STR R0, [X]    | STR R1, [Y]
+> LDR R2, [Y]    | LDR R3, [X]
+> 
+> exists
+> R2=1 /\ R3=1
+> EOF
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+Test test_name
+
+{}
+
+P0             | P1
+MOV R0, #1     | MOV R1, #1
+STR R0, [X]    | STR R1, [Y]
+LDR R2, [Y]    | LDR R3, [X]
+
+exists
+R2=1 /\ R3=1
+vlab@HYVLAB8:~/Desktop$ cat <<EOF > test.litmus                 litmus7 test.litvlab@HYVLAB8:~/Desktop$ cat <<EOF > test.litmus                 litmus7 test.litvlab@HYVLAB8:~/Desktop$ 
+vlab@HYVLAB8:~/Desktop$ 
+vlab@HYVLAB8:~/Desktop$ 
+vlab@HYVLAB8:~/Desktop$ cat <<EOF > test.litmus                 litmus7 test.litmus -o C_output
+File "test.litmus" exception Failure("File \"test.litmus\", line 1, character 14: Uncaught exception in splitter Misc.UserError(\"Test is not an implemented architecture\")")
+vlab@HYVLAB8:~/Desktop$ 
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output
+File "test.litmus" exception Failure("File \"test.litmus\", line 1, character 14: Uncaught exception in splitter Misc.UserError(\"Test is not an implemented architecture\")")
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+Test test_name
+
+{}
+
+P0             | P1
+MOV R0, #1     | MOV R1, #1
+STR R0, [X]    | STR R1, [Y]
+LDR R2, [Y]    | LDR R3, [X]
+
+exists
+R2=1 /\ R3=1
+vlab@HYVLAB8:~/Desktop$ vi test.litmus 
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output
+File "test.litmus" exception Failure("File \"test.litmus\", line 1, character 10: Uncaught exception in splitter Misc.UserError(\"Test is not an implemented architecture\")")
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+Test riscv
+
+{}
+
+P0             | P1
+MOV R0, #1     | MOV R1, #1
+STR R0, [X]    | STR R1, [Y]
+LDR R2, [Y]    | LDR R3, [X]
+
+exists
+R2=1 /\ R3=1
+vlab@HYVLAB8:~/Desktop$ vi test.litmus 
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+Test riscv32
+
+{}
+
+P0             | P1
+MOV R0, #1     | MOV R1, #1
+STR R0, [X]    | STR R1, [Y]
+LDR R2, [Y]    | LDR R3, [X]
+
+exists
+R2=1 /\ R3=1
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output
+File "test.litmus" exception Failure("File \"test.litmus\", line 1, character 12: Uncaught exception in splitter Misc.UserError(\"Test is not an implemented architecture\")")
+vlab@HYVLAB8:~/Desktop$ which limus7
+vlab@HYVLAB8:~/Desktop$ which litmus7
+/home/vlab/.opam/default/bin/litmus7
+vlab@HYVLAB8:~/Desktop$ vi test.litmus 
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+Test arm
+
+{}
+
+P0             | P1
+MOV R0, #1     | MOV R1, #1
+STR R0, [X]    | STR R1, [Y]
+LDR R2, [Y]    | LDR R3, [X]
+
+exists
+R2=1 /\ R3=1
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output
+File "test.litmus" exception Failure("File \"test.litmus\", line 1, character 8: Uncaught exception in splitter Misc.UserError(\"Test is not an implemented architecture\")")
+vlab@HYVLAB8:~/Desktop$ vi test.litmus 
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+X86 SB
+"Fre PodWR Fre PodWR"
+{ x=0; y=0; }
+P0 | P1 ;
+MOV [x],$1 | MOV [y],$1 ;
+MOV EAX,[y] | MOV EAX,[x] ;
+locations [x;y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus -o C_output
+vlab@HYVLAB8:~/Desktop$ cd C_output/
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh  litmus_rand.c  litmus_rand.h  Makefile  outs.c  outs.h  README.txt  run.sh  show.awk  test.c  utils.c  utils.h
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.c 
+/****************************************************************************/
+/*                           the diy toolsuite                              */
+/*                                                                          */
+/* Jade Alglave, University College London, UK.                             */
+/* Luc Maranget, INRIA Paris-Rocquencourt, France.                          */
+/*                                                                          */
+/* This C source is a product of litmus7 and includes source that is        */
+/* governed by the CeCILL-B license.                                        */
+/****************************************************************************/
+/* Parameters */
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+#define N 2
+#define AFF_INCR (-1)
+/* Includes */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <assert.h>
+#include <time.h>
+#include <limits.h>
+#include <string.h>
+#include "utils.h"
+#include "outs.h"
+
+/* params */
+typedef struct {
+  int verbose;
+  int size_of_test,max_run;
+  int do_change;
+} param_t;
+
+
+
+/* Full memory barrier */
+inline static void mbar(void) {
+  asm __volatile__ ("mfence" ::: "memory");
+}
+
+/* Barriers macros */
+inline static void barrier_wait(unsigned int id, unsigned int k, int volatile *b) {
+  if ((k % N) == id) {
+    *b = 1 ;
+  } else {
+    while (*b == 0) ;
+  }
+}
+
+/**********************/
+/* Context definition */
+/**********************/
+
+
+typedef struct {
+/* Shared variables */
+  int *y;
+  int *x;
+/* Final content of observed  registers */
+  int *out_0_eax;
+  int *out_1_eax;
+/* Check data */
+  pb_t *fst_barrier;
+  po_t *s_or;
+  int* cpy_x[N] ;
+  int* cpy_y[N] ;
+/* Barrier for litmus loop */
+  int volatile *barrier;
+/* Instance seed */
+  st_t seed;
+/* Parameters */
+  param_t *_p;
+} ctx_t;
+
+inline static int final_cond(int _out_0_eax,int _out_1_eax) {
+  switch (_out_0_eax) {
+  case 0:
+    switch (_out_1_eax) {
+    case 0:
+      return 1;
+    default:
+      return 0;
+    }
+  default:
+    return 0;
+  }
+}
+
+inline static int final_ok(int cond) {
+  return cond;
+}
+
+/**********************/
+/* Outcome collection */
+/**********************/
+#define NOUTS 4
+typedef intmax_t outcome_t[NOUTS];
+
+static const int out_0_eax_f = 0 ;
+static const int out_1_eax_f = 1 ;
+static const int x_f = 2 ;
+static const int y_f = 3 ;
+
+
+typedef struct hist_t {
+  outs_t *outcomes ;
+  count_t n_pos,n_neg ;
+} hist_t ;
+
+static hist_t *alloc_hist(void) {
+  hist_t *p = malloc_check(sizeof(*p)) ;
+  p->outcomes = NULL ;
+  p->n_pos = p->n_neg = 0 ;
+  return p ;
+}
+
+static void free_hist(hist_t *h) {
+  free_outs(h->outcomes) ;
+  free(h) ;
+}
+
+static void add_outcome(hist_t *h, count_t v, outcome_t o, int show) {
+  h->outcomes = add_outcome_outs(h->outcomes,o,NOUTS,v,show) ;
+}
+
+static void merge_hists(hist_t *h0, hist_t *h1) {
+  h0->n_pos += h1->n_pos ;
+  h0->n_neg += h1->n_neg ;
+  h0->outcomes = merge_outs(h0->outcomes,h1->outcomes,NOUTS) ;
+}
+
+
+static void do_dump_outcome(FILE *fhist, intmax_t *o, count_t c, int show) {
+  fprintf(fhist,"%-6"PCTR"%c>0:EAX=%d; 1:EAX=%d; [x]=%d; [y]=%d;\n",c,show ? '*' : ':',(int)o[out_0_eax_f],(int)o[out_1_eax_f],(int)o[x_f],(int)o[y_f]);
+}
+
+static void just_dump_outcomes(FILE *fhist, hist_t *h) {
+  outcome_t buff ;
+  dump_outs(fhist,do_dump_outcome,h->outcomes,buff,NOUTS) ;
+}
+
+/**************************************/
+/* Prefetch (and check) global values */
+/**************************************/
+
+static void check_globals(ctx_t *_a) {
+  int *y = _a->y;
+  int *x = _a->x;
+  for (int _i = _a->_p->size_of_test-1 ; _i >= 0 ; _i--) {
+    if (rand_bit(&(_a->seed)) && y[_i] != 0) fatal("SB, check_globals failed");
+    if (rand_bit(&(_a->seed)) && x[_i] != 0) fatal("SB, check_globals failed");
+  }
+  pb_wait(_a->fst_barrier);
+}
+
+
+static void stabilize_globals(int _id, ctx_t *_a) {
+  int size_of_test = _a->_p->size_of_test;
+
+  int *x = _a->x;
+  int **cpy_x = _a->cpy_x;
+  int *y = _a->y;
+  int **cpy_y = _a->cpy_y;
+
+  pb_wait(_a->fst_barrier);
+  for ( ; ; ) {
+    for (int _i = size_of_test-1 ; _i >= 0 ; _i--) {
+      cpy_x[_id][_i] = x[_i];
+      cpy_y[_id][_i] = y[_i];
+    }
+    po_reinit(_a->s_or);
+    int _found;
+    int _nxt_id = (_id+1) % N;
+    _found = 0;
+    for (int _i = size_of_test-1 ; _i >= 0 && !_found ; _i--) {
+      if (cpy_x[_id][_i] != cpy_x[_nxt_id][_i]) { _found = 1; }
+      if (cpy_y[_id][_i] != cpy_y[_nxt_id][_i]) { _found = 1; }
+    }
+    if (_found) { log_error("%i: Stabilizing final state!\n",_id); }
+    if (!po_wait(_a->s_or,_found)) return ;
+  }
+}
+
+/***************/
+/* Litmus code */
+/***************/
+
+typedef struct {
+  int th_id; /* I am running on this thread */
+  ctx_t *_a;   /* In this context */
+} parg_t;
+
+static void *P0(void *_vb) {
+  mbar();
+  parg_t *_b = (parg_t *)_vb;
+  ctx_t *_a = _b->_a;
+  check_globals(_a);
+  int _th_id = _b->th_id;
+  int volatile *barrier = _a->barrier;
+  int _size_of_test = _a->_p->size_of_test;
+  for (int _i = _size_of_test-1 ; _i >= 0 ; _i--) {
+    barrier_wait(_th_id,_i,&barrier[_i]);
+asm __volatile__ (
+"\n"
+"#START _litmus_P0\n"
+"#_litmus_P0_0\n\t"
+"movl $1,%[x]\n"
+"#_litmus_P0_1\n\t"
+"movl %[y],%[eax]\n"
+"#END _litmus_P0\n"
+:[x] "=m" (_a->x[_i]),[y] "=m" (_a->y[_i]),[eax] "=&a" (_a->out_0_eax[_i])
+:
+:"cc","memory"
+);
+  }
+  stabilize_globals(0,_a);
+  mbar();
+  return NULL;
+}
+
+static void *P1(void *_vb) {
+  mbar();
+  parg_t *_b = (parg_t *)_vb;
+  ctx_t *_a = _b->_a;
+  check_globals(_a);
+  int _th_id = _b->th_id;
+  int volatile *barrier = _a->barrier;
+  int _size_of_test = _a->_p->size_of_test;
+  for (int _i = _size_of_test-1 ; _i >= 0 ; _i--) {
+    barrier_wait(_th_id,_i,&barrier[_i]);
+asm __volatile__ (
+"\n"
+"#START _litmus_P1\n"
+"#_litmus_P1_0\n\t"
+"movl $1,%[y]\n"
+"#_litmus_P1_1\n\t"
+"movl %[x],%[eax]\n"
+"#END _litmus_P1\n"
+:[x] "=m" (_a->x[_i]),[y] "=m" (_a->y[_i]),[eax] "=&a" (_a->out_1_eax[_i])
+:
+:"cc","memory"
+);
+  }
+  stabilize_globals(1,_a);
+  mbar();
+  return NULL;
+}
+
+/*******************************************************/
+/* Context allocation, freeing and reinitialization    */
+/*******************************************************/
+
+static void init_getinstrs(void) {
+}
+
+static void init(ctx_t *_a) {
+  int size_of_test = _a->_p->size_of_test;
+
+  _a->seed = rand();
+  _a->out_0_eax = malloc_check(size_of_test*sizeof(*(_a->out_0_eax)));
+  _a->out_1_eax = malloc_check(size_of_test*sizeof(*(_a->out_1_eax)));
+  _a->y = malloc_check(size_of_test*sizeof(*(_a->y)));
+  _a->x = malloc_check(size_of_test*sizeof(*(_a->x)));
+  _a->fst_barrier = pb_create(N);
+  _a->s_or = po_create(N);
+  for (int _p = N-1 ; _p >= 0 ; _p--) {
+    _a->cpy_x[_p] = malloc_check(size_of_test*sizeof(*(_a->cpy_x[_p])));
+    _a->cpy_y[_p] = malloc_check(size_of_test*sizeof(*(_a->cpy_y[_p])));
+  }
+  _a->barrier = malloc_check(size_of_test*sizeof(*(_a->barrier)));
+}
+
+static void finalize(ctx_t *_a) {
+  free((void *)_a->y);
+  free((void *)_a->x);
+  free((void *)_a->out_0_eax);
+  free((void *)_a->out_1_eax);
+  pb_free(_a->fst_barrier);
+  po_free(_a->s_or);
+  for (int _p = N-1 ; _p >= 0 ; _p--) {
+    free((void *)_a->cpy_x[_p]);
+    free((void *)_a->cpy_y[_p]);
+  }
+  free((void *)_a->barrier);
+}
+
+static void reinit(ctx_t *_a) {
+  for (int _i = _a->_p->size_of_test-1 ; _i >= 0 ; _i--) {
+    _a->y[_i] = 0;
+    _a->x[_i] = 0;
+    _a->out_0_eax[_i] = -239487;
+    _a->out_1_eax[_i] = -239487;
+    _a->barrier[_i] = 0;
+  }
+}
+
+typedef struct {
+  pm_t *p_mutex;
+  pb_t *p_barrier;
+  param_t *_p;
+} zyva_t;
+
+#define NT N
+
+static void *zyva(void *_va) {
+  zyva_t *_a = (zyva_t *) _va;
+  param_t *_b = _a->_p;
+  pb_wait(_a->p_barrier);
+  pthread_t thread[NT];
+  parg_t parg[N];
+  f_t *fun[] = {&P0,&P1};
+  hist_t *hist = alloc_hist();
+  ctx_t ctx;
+  ctx._p = _b;
+
+  init(&ctx);
+  for (int _p = N-1 ; _p >= 0 ; _p--) {
+    parg[_p].th_id = _p; parg[_p]._a = &ctx;
+  }
+
+  for (int n_run = 0 ; n_run < _b->max_run ; n_run++) {
+    if (_b->verbose>1) fprintf(stderr,"Run %i of %i\r", n_run, _b->max_run);
+    reinit(&ctx);
+    if (_b->do_change) perm_funs(&ctx.seed,fun,N);
+    for (int _p = NT-1 ; _p >= 0 ; _p--) {
+      launch(&thread[_p],fun[_p],&parg[_p]);
+    }
+    if (_b->do_change) perm_threads(&ctx.seed,thread,NT);
+    for (int _p = NT-1 ; _p >= 0 ; _p--) {
+      join(&thread[_p]);
+    }
+    /* Log final states */
+    for (int _i = _b->size_of_test-1 ; _i >= 0 ; _i--) {
+      int _out_0_eax_i = ctx.out_0_eax[_i];
+      int _out_1_eax_i = ctx.out_1_eax[_i];
+      int _x_i = ctx.x[_i];
+      int _y_i = ctx.y[_i];
+      outcome_t o;
+      int cond;
+
+      for (int _p = N-1 ; _p >= 0 ; _p--) {
+        if (_x_i != ctx.cpy_x[_p][_i]) fatal("SB, global x unstabilized") ;
+      }
+      for (int _p = N-1 ; _p >= 0 ; _p--) {
+        if (_y_i != ctx.cpy_y[_p][_i]) fatal("SB, global y unstabilized") ;
+      }
+      cond = final_ok(final_cond(_out_0_eax_i,_out_1_eax_i));
+      o[out_0_eax_f] = _out_0_eax_i;
+      o[out_1_eax_f] = _out_1_eax_i;
+      o[x_f] = _x_i;
+      o[y_f] = _y_i;
+      add_outcome(hist,1,o,cond);
+      if (cond) { hist->n_pos++; } else { hist->n_neg++; }
+    }
+  }
+
+  finalize(&ctx);
+  return hist;
+}
+
+#define ENOUGH 10
+
+static void postlude(FILE *out,cmd_t *cmd,hist_t *hist,count_t p_true,count_t p_false,tsc_t total) {
+  fprintf(out,"Test SB Allowed\n");
+  fprintf(out,"Histogram (%d states)\n",finals_outs(hist->outcomes));
+  just_dump_outcomes(out,hist);
+  int cond = p_true > 0;
+  fprintf(out,"%s\n",cond?"Ok":"No");
+  fprintf(out,"\nWitnesses\n");
+  fprintf(out,"Positive: %" PCTR ", Negative: %" PCTR "\n",p_true,p_false);
+  fprintf(out,"Condition %s is %svalidated\n","exists (0:EAX=0 /\\ 1:EAX=0)",cond ? "" : "NOT ");
+  fprintf(out,"Hash=2d53e83cd627ba17ab11c875525e078b\n");
+  count_t cond_true = p_true;
+  count_t cond_false = p_false;
+  fprintf(out,"Observation SB %s %" PCTR " %" PCTR "\n",!cond_true ? "Never" : !cond_false ? "Always" : "Sometimes",cond_true,cond_false);
+  fprintf(out,"Time SB %.2f\n",total / 1000000.0);
+  fflush(out);
+}
+
+static void run(cmd_t *cmd,cpus_t *def_all_cpus,FILE *out) {
+  tsc_t start = timeofday();
+  init_getinstrs();
+  param_t prm ;
+/* Set some parameters */
+  prm.verbose = cmd->verbose;
+  prm.size_of_test = cmd->size_of_test;
+  prm.max_run = cmd->max_run;
+  prm.do_change = 1;
+  if (cmd->fix) prm.do_change = 0;
+/* Computes number of test concurrent instances */
+  int n_avail = cmd->avail;
+  int n_exe;
+  if (cmd->n_exe > 0) {
+    n_exe = cmd->n_exe;
+  } else {
+    n_exe = n_avail < N ? 1 : n_avail / N;
+  }
+/* Show parameters to user */
+  if (prm.verbose) {
+    log_error( "SB: n=%i, r=%i, s=%i",n_exe,prm.max_run,prm.size_of_test);
+    log_error("\n");
+  }
+  hist_t *hist = NULL;
+  int n_th = n_exe-1;
+  pthread_t th[n_th];
+  zyva_t zarg[n_exe];
+  pm_t *p_mutex = pm_create();
+  pb_t *p_barrier = pb_create(n_exe);
+  for (int k=0 ; k < n_exe ; k++) {
+    zyva_t *p = &zarg[k];
+    p->_p = &prm;
+    p->p_mutex = p_mutex; p->p_barrier = p_barrier;
+    if (k < n_th) {
+      launch(&th[k],zyva,p);
+    } else {
+      hist = (hist_t *)zyva(p);
+    }
+  }
+
+  count_t n_outs = prm.size_of_test; n_outs *= prm.max_run;
+  for (int k=0 ; k < n_th ; k++) {
+    hist_t *hk = (hist_t *)join(&th[k]);
+    if (sum_outs(hk->outcomes) != n_outs || hk->n_pos + hk->n_neg != n_outs) {
+      fatal("SB, sum_hist");
+    }
+    merge_hists(hist,hk);
+    free_hist(hk);
+  }
+  tsc_t total = timeofday() - start;
+  pm_free(p_mutex);
+  pb_free(p_barrier);
+
+  n_outs *= n_exe ;
+  if (sum_outs(hist->outcomes) != n_outs || hist->n_pos + hist->n_neg != n_outs) {
+    fatal("SB, sum_hist") ;
+  }
+  count_t p_true = hist->n_pos, p_false = hist->n_neg;
+  postlude(out,cmd,hist,p_true,p_false,total);
+  free_hist(hist);
+}
+
+
+int main(int argc, char **argv) {
+  cpus_t *def_all_cpus = NULL;
+  cmd_t def = { 0, NUMBER_OF_RUN, SIZE_OF_TEST, STRIDE, AVAIL, 0, 0, aff_none, 0, 0, AFF_INCR, def_all_cpus, NULL, -1, MAX_LOOP, NULL, NULL, -1, -1, -1, 0, 0};
+  cmd_t cmd = def;
+  parse_cmd(argc,argv,&def,&cmd);
+  run(&cmd,def_all_cpus,stdout);
+  return EXIT_SUCCESS;
+}
+vlab@HYVLAB8:~/Desktop/C_output$ 
+vlab@HYVLAB8:~/Desktop/C_output$ 
+vlab@HYVLAB8:~/Desktop/C_output$ ls _build/install/default/bin
+ls: cannot access '_build/install/default/bin': No such file or directory
+vlab@HYVLAB8:~/Desktop/C_output$ cd ..
+vlab@HYVLAB8:~/Desktop$ ls _build/install/default/bin
+ls: cannot access '_build/install/default/bin': No such file or directory
+vlab@HYVLAB8:~/Desktop$ cd
+vlab@HYVLAB8:~$ ls _build/install/default/bin
+ls: cannot access '_build/install/default/bin': No such file or directory
+vlab@HYVLAB8:~$ cd Desktop/
+vlab@HYVLAB8:~/Desktop$ cd C_output/
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        outs.c      show.awk
+litmus_rand.c  outs.h      test.c
+litmus_rand.h  README.txt  utils.c
+Makefile       run.sh      utils.h
+vlab@HYVLAB8:~/Desktop/C_output$ gcc -o test test.c
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `alloc_hist':
+test.c:(.text+0x86): undefined reference to `malloc_check'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `free_hist':
+test.c:(.text+0xd6): undefined reference to `free_outs'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `add_outcome':
+test.c:(.text+0x125): undefined reference to `add_outcome_outs'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `merge_hists':
+test.c:(.text+0x197): undefined reference to `merge_outs'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `just_dump_outcomes':
+test.c:(.text+0x2a8): undefined reference to `dump_outs'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `check_globals':
+test.c:(.text+0x309): undefined reference to `rand_bit'
+/usr/bin/ld: test.c:(.text+0x333): undefined reference to `fatal'
+/usr/bin/ld: test.c:(.text+0x343): undefined reference to `rand_bit'
+/usr/bin/ld: test.c:(.text+0x36d): undefined reference to `fatal'
+/usr/bin/ld: test.c:(.text+0x387): undefined reference to `pb_wait'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `stabilize_globals':
+test.c:(.text+0x3ea): undefined reference to `pb_wait'
+/usr/bin/ld: test.c:(.text+0x48d): undefined reference to `po_reinit'
+/usr/bin/ld: test.c:(.text+0x59a): undefined reference to `log_error'
+/usr/bin/ld: test.c:(.text+0x5af): undefined reference to `po_wait'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `init':
+test.c:(.text+0x7f1): undefined reference to `malloc_check'
+/usr/bin/ld: test.c:(.text+0x80a): undefined reference to `malloc_check'
+/usr/bin/ld: test.c:(.text+0x823): undefined reference to `malloc_check'
+/usr/bin/ld: test.c:(.text+0x83b): undefined reference to `malloc_check'
+/usr/bin/ld: test.c:(.text+0x84d): undefined reference to `pb_create'
+/usr/bin/ld: test.c:(.text+0x85f): undefined reference to `po_create'
+/usr/bin/ld: test.c:(.text+0x881): undefined reference to `malloc_check'
+/usr/bin/ld: test.c:(.text+0x8a4): undefined reference to `malloc_check'
+/usr/bin/ld: test.c:(.text+0x8d1): undefined reference to `malloc_check'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `finalize':
+test.c:(.text+0x93b): undefined reference to `pb_free'
+/usr/bin/ld: test.c:(.text+0x94b): undefined reference to `po_free'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `zyva':
+test.c:(.text+0xab7): undefined reference to `pb_wait'
+/usr/bin/ld: test.c:(.text+0xbce): undefined reference to `perm_funs'
+/usr/bin/ld: test.c:(.text+0xc23): undefined reference to `launch'
+/usr/bin/ld: test.c:(.text+0xc60): undefined reference to `perm_threads'
+/usr/bin/ld: test.c:(.text+0xc8b): undefined reference to `join'
+/usr/bin/ld: test.c:(.text+0xd66): undefined reference to `fatal'
+/usr/bin/ld: test.c:(.text+0xdb9): undefined reference to `fatal'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `postlude':
+test.c:(.text+0xf59): undefined reference to `finals_outs'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `run':
+test.c:(.text+0x1150): undefined reference to `timeofday'
+/usr/bin/ld: test.c:(.text+0x1219): undefined reference to `log_error'
+/usr/bin/ld: test.c:(.text+0x122a): undefined reference to `log_error'
+/usr/bin/ld: test.c:(.text+0x1428): undefined reference to `pm_create'
+/usr/bin/ld: test.c:(.text+0x143c): undefined reference to `pb_create'
+/usr/bin/ld: test.c:(.text+0x14de): undefined reference to `launch'
+/usr/bin/ld: test.c:(.text+0x1557): undefined reference to `join'
+/usr/bin/ld: test.c:(.text+0x156a): undefined reference to `sum_outs'
+/usr/bin/ld: test.c:(.text+0x1595): undefined reference to `fatal'
+/usr/bin/ld: test.c:(.text+0x15d5): undefined reference to `timeofday'
+/usr/bin/ld: test.c:(.text+0x15ef): undefined reference to `pm_free'
+/usr/bin/ld: test.c:(.text+0x15fe): undefined reference to `pb_free'
+/usr/bin/ld: test.c:(.text+0x1624): undefined reference to `sum_outs'
+/usr/bin/ld: test.c:(.text+0x1655): undefined reference to `fatal'
+/usr/bin/ld: /tmp/ccvI3Nun.o: in function `main':
+test.c:(.text+0x18aa): undefined reference to `parse_cmd'
+collect2: error: ld returned 1 exit status
+vlab@HYVLAB8:~/Desktop/C_output$ make
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c outs.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c utils.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -O2 -c litmus_rand.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread -S test.c
+gcc -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread  -o test.exe outs.o utils.o litmus_rand.o test.s
+awk -f show.awk test.s > test.t
+rm test.s
+vlab@HYVLAB8:~/Desktop/C_output$ ./run.sh
+bash: ./run.sh: Permission denied
+vlab@HYVLAB8:~/Desktop/C_output$ run.sh
+run.sh: command not found
+vlab@HYVLAB8:~/Desktop/C_output$ chmod +x run.sh
+vlab@HYVLAB8:~/Desktop/C_output$ ./run.sh
+Wednesday 31 July 2024 10:04:58 AM IST
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for test.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86 SB
+"Fre PodWR Fre PodWR"
+
+{
+ [x]=0;
+ [y]=0;
+}
+ P0          | P1          ;
+ MOV [x],$1  | MOV [y],$1  ;
+ MOV EAX,[y] | MOV EAX,[x] ;
+
+locations [x; y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+Generated assembler
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+Test SB Allowed
+Histogram (4 states)
+5     *>0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+499997:>0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+499996:>0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+2     :>0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+
+Witnesses
+Positive: 5, Negative: 999995
+Condition exists (0:EAX=0 /\ 1:EAX=0) is validated
+Hash=2d53e83cd627ba17ab11c875525e078b
+Observation SB Sometimes 5 999995
+Time SB 0.14
+Revision exported, version 7.57
+Command line: litmus7 test.litmus -o C_output
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+GCC=gcc
+LITMUSOPTS=
+Wednesday 31 July 2024 10:04:58 AM IST
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe  utils.c  utils.o
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.t    utils.h
+vlab@HYVLAB8:~/Desktop/C_output$ ./show.awk test.rd
+bash: ./show.awk: Permission denied
+vlab@HYVLAB8:~/Desktop/C_output$ chmod +x show.awk
+vlab@HYVLAB8:~/Desktop/C_output$ ./show.awk test.rd
+./show.awk: line 1: /START: No such file or directory
+./show.awk: line 2: syntax error near unexpected token `\.F'
+./show.awk: line 2: `/_litmus_P[0-9]+(\.F)?_[0-9]+/ { getline; print $0 ; }'
+vlab@HYVLAB8:~/Desktop/C_output$ cat show.awk 
+/START _litmus_P/ { print $0 }
+/_litmus_P[0-9]+(\.F)?_[0-9]+/ { getline; print $0 ; }
+vlab@HYVLAB8:~/Desktop/C_output$ vi test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Makefile  outs.h  README.txt  show.awk  test.exe  test.t   utils.h
+litmus_rand.c  litmus_rand.o  outs.c    outs.o  run.sh      test.c    test.rd   utils.c  utils.o
+vlab@HYVLAB8:~/Desktop/C_output$ ./show.awk test.rd
+./show.awk: line 1: /START: No such file or directory
+./show.awk: line 2: syntax error near unexpected token `\.F'
+./show.awk: line 2: `/_litmus_P[0-9]+(\.F)?_[0-9]+/ { getline; print $0 ; }'
+vlab@HYVLAB8:~/Desktop/C_output$ awk -f show.awk test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ cat show.awk 
+/START _litmus_P/ { print $0 }
+/_litmus_P[0-9]+(\.F)?_[0-9]+/ { getline; print $0 ; }
+vlab@HYVLAB8:~/Desktop/C_output$ ls -l show.awk
+-rwxrwxr-x 1 vlab vlab 86 Jul 31 09:55 show.awk
+vlab@HYVLAB8:~/Desktop/C_output$ awk --version
+awk: not an option: --version
+vlab@HYVLAB8:~/Desktop/C_output$ sudo apt install gawk
+[sudo] password for vlab: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Suggested packages:
+  gawk-doc
+The following NEW packages will be installed:
+  gawk
+0 upgraded, 1 newly installed, 0 to remove and 278 not upgraded.
+Need to get 415 kB of archives.
+After this operation, 1,700 kB of additional disk space will be used.
+Get:1 http://in.archive.ubuntu.com/ubuntu focal-updates/main amd64 gawk amd64 1:5.0.1+dfsg-1ubuntu0.1 [415 kB]
+Fetched 415 kB in 15s (27.6 kB/s)
+Selecting previously unselected package gawk.
+(Reading database ... 160220 files and directories currently installed.)
+Preparing to unpack .../gawk_1%3a5.0.1+dfsg-1ubuntu0.1_amd64.deb ...
+Unpacking gawk (1:5.0.1+dfsg-1ubuntu0.1) ...
+Setting up gawk (1:5.0.1+dfsg-1ubuntu0.1) ...
+Processing triggers for man-db (2.9.1-1) ...
+vlab@HYVLAB8:~/Desktop/C_output$ gawk -f show.awk test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ awk --version
+GNU Awk 5.0.1, API: 2.0 (GNU MPFR 4.0.2, GNU MP 6.2.0)
+Copyright (C) 1989, 1991-2019 Free Software Foundation.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ vi show.awk 
+vlab@HYVLAB8:~/Desktop/C_output$ vi show.awk 
+vlab@HYVLAB8:~/Desktop/C_output$ cat show.awk 
+#/START _litmus_P/ { print $0 }
+#/_litmus_P[0-9]+(\.F)?_[0-9]+/ { getline; print $0 ; }
+/START/ {
+  while ((getline > 0) && !/END/) {
+    if ($0 ~ /litmus_P[0-9]+(\.F)?[0-9]+/) {
+      getline
+      print $0
+    }
+  }
+}
+vlab@HYVLAB8:~/Desktop/C_output$ ./show.awk test.rd
+./show.awk: line 3: /START/: No such file or directory
+./show.awk: line 4: syntax error near unexpected token `{'
+./show.awk: line 4: `  while ((getline > 0) && !/END/) {'
+vlab@HYVLAB8:~/Desktop/C_output$ chmod -x show.awk
+vlab@HYVLAB8:~/Desktop/C_output$ ls -l show.awk 
+-rw-rw-r-- 1 vlab vlab 220 Jul 31 10:35 show.awk
+vlab@HYVLAB8:~/Desktop/C_output$ gawk -f show.awk test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ echo -e "START\nlitmus_P1\nEND" > test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ gawk -f show.awk test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.rd
+START
+litmus_P1
+END
+vlab@HYVLAB8:~/Desktop/C_output$ vi show.awk 
+vlab@HYVLAB8:~/Desktop/C_output$ gawk -f show.awk test.rd
+Found START
+Reading line: litmus_P1
+Match found: litmus_P1
+Reached END
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.rd
+START
+litmus_P1
+END
+vlab@HYVLAB8:~/Desktop/C_output$ vi Makefile 
+vlab@HYVLAB8:~/Desktop/C_output$ gawk -f show.awk test.out
+gawk: fatal: cannot open file `test.out' for reading (No such file or directory)
+vlab@HYVLAB8:~/Desktop/C_output$ rm -r test.rd
+vlab@HYVLAB8:~/Desktop/C_output$ vi test.out
+vlab@HYVLAB8:~/Desktop/C_output$ gawk -f show.awk test.out
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.out
+vlab@HYVLAB8:~/Desktop/C_output$ awk -f show.awk test.out
+vlab@HYVLAB8:~/Desktop/C_output$ cat test.out
+vlab@HYVLAB8:~/Desktop/C_output$ ./run.sh 2>&1 | tee run.log
+Wednesday 31 July 2024 10:48:08 AM IST
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for test.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86 SB
+"Fre PodWR Fre PodWR"
+
+{
+ [x]=0;
+ [y]=0;
+}
+ P0          | P1          ;
+ MOV [x],$1  | MOV [y],$1  ;
+ MOV EAX,[y] | MOV EAX,[x] ;
+
+locations [x; y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+Generated assembler
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+Test SB Allowed
+Histogram (4 states)
+11    *>0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+499992:>0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+499994:>0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+3     :>0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+
+Witnesses
+Positive: 11, Negative: 999989
+Condition exists (0:EAX=0 /\ 1:EAX=0) is validated
+Hash=2d53e83cd627ba17ab11c875525e078b
+Observation SB Sometimes 11 999989
+Time SB 0.14
+Revision exported, version 7.57
+Command line: litmus7 test.litmus -o C_output
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+GCC=gcc
+LITMUSOPTS=
+Wednesday 31 July 2024 10:48:08 AM IST
+vlab@HYVLAB8:~/Desktop/C_output$ cat run.log 
+Wednesday 31 July 2024 10:48:08 AM IST
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for test.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86 SB
+"Fre PodWR Fre PodWR"
+
+{
+ [x]=0;
+ [y]=0;
+}
+ P0          | P1          ;
+ MOV [x],$1  | MOV [y],$1  ;
+ MOV EAX,[y] | MOV EAX,[x] ;
+
+locations [x; y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+Generated assembler
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+Test SB Allowed
+Histogram (4 states)
+11    *>0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+499992:>0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+499994:>0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+3     :>0:EAX=1; 1:EAX=1; [x]=1; [y]=1;
+Ok
+
+Witnesses
+Positive: 11, Negative: 999989
+Condition exists (0:EAX=0 /\ 1:EAX=0) is validated
+Hash=2d53e83cd627ba17ab11c875525e078b
+Observation SB Sometimes 11 999989
+Time SB 0.14
+Revision exported, version 7.57
+Command line: litmus7 test.litmus -o C_output
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+GCC=gcc
+LITMUSOPTS=
+Wednesday 31 July 2024 10:48:08 AM IST
+vlab@HYVLAB8:~/Desktop/C_output$ ls
+comp.sh        litmus_rand.h  Litmus_test.txt  outs.c  outs.o      run.log  session_output.txt  test.c    test.out  utils.c  utils.o
+litmus_rand.c  litmus_rand.o  Makefile         outs.h  README.txt  run.sh   show.awk            test.exe  test.t    utils.h
+vlab@HYVLAB8:~/Desktop/C_output$ test.exe
+test.exe: command not found
+vlab@HYVLAB8:~/Desktop/C_output$ ./test.exe
+Test SB Allowed
+Histogram (3 states)
+2     *>0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+499997:>0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+500001:>0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+Ok
+
+Witnesses
+Positive: 2, Negative: 999998
+Condition exists (0:EAX=0 /\ 1:EAX=0) is validated
+Hash=2d53e83cd627ba17ab11c875525e078b
+Observation SB Sometimes 2 999998
+Time SB 0.15
+
+

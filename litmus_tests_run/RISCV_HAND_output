@@ -1,0 +1,957 @@
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ cat run_litmus_risv_HAND.sh 
+#!/bin/bash
+
+# Path to the litmus tool, adjust if necessary
+LITMUS_TOOL=litmus7
+
+# Loop through all .litmus files in the directory
+for test_file in *.litmus; do
+    echo "Running test: $test_file"
+    $LITMUS_TOOL $test_file
+done
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ ls -l run_litmus_risv_HAND.sh 
+-rw-rw-r-- 1 vlab vlab 230 Jul 31 11:20 run_litmus_risv_HAND.sh
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ chmod +x run_litmus_risv_HAND.sh 
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ chmod +x run_litmus_risv_HAND.sh 
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ ls -l run_litmus_risv_HAND.sh 
+-rwxrwxr-x 1 vlab vlab 230 Jul 31 11:20 run_litmus_risv_HAND.sh
+
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ script RISV_HAND_output.txt
+Script started, file is RISV_HAND_output.txt
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ ./run_litmus_risv_HAND.sh 
+Running test: LB-mixed1.litmus
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for LB-mixed1.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RISCV LB+mixed1
+"at some point this was allowed by the axiomatic and forbidden by the
+operational (not sure which was is correct)"
+
+{
+ uint64_t z=0;
+ 0:x6=x; 0:x8=y;
+ 1:x6=y; 1:x8=z; 1:x13=x;
+}
+ P0          | P1                     ;
+ lw x5,0(x6) | lw x5,0(x6)            ;
+ fence rw,rw | ori x7,x0,1            ;
+ ori x7,x0,1 | amoadd.w.rl x1,x7,(x8) ;
+ sw x7,0(x8) | ld x9,0(x8)            ;
+             | lw x10,4(x8)           ;
+             | xor x11,x10,x10        ;
+             | ori x11,x11,1          ;
+             | sw x11,0(x13)          ;
+
+exists (0:x5=1 /\ 1:x1=0 /\ 1:x5=1 /\ 1:x9=1 /\ 1:x10=0)
+Generated assembler
+/tmp/dira2d3d2.tmp/LB-mixed1.c: Assembler messages:
+/tmp/dira2d3d2.tmp/LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:235: Error: no such instruction: `lw %r9d,0(%rax)'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:237: Error: no such instruction: `ori %r14d,x0,1'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:239: Error: no such instruction: `amoadd.w.rl %r8d,%r14d,(%rcx)'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:241: Error: no such instruction: `ld %ebp,0(%rcx)'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:243: Error: no such instruction: `lw %r12d,4(%rcx)'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:245: Error: number of operands mismatch for `xor'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:247: Error: no such instruction: `ori %r13d,%r13d,1'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:249: Error: no such instruction: `sw %r13d,0(%rsi)'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:202: Error: no such instruction: `lw %edi,0(%rax)'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:204: Error: no such instruction: `fence rw,rw'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:206: Error: no such instruction: `ori %r10d,x0,1'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:208: Error: no such instruction: `sw %r10d,0(%rdx)'
+/tmp/dira2d3d2.tmp/LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+File "LB-mixed1.litmus" Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dira2d3d2.tmp/LB-mixed1.exe /tmp/dira2d3d2.tmp/utils.c /tmp/dira2d3d2.tmp/litmus_rand.c /tmp/dira2d3d2.tmp/outs.c /tmp/dira2d3d2.tmp/LB-mixed1.c' failed
+#START _litmus_P1
+	lw %r9d,0(%rax)
+	ori %r14d,x0,1
+	amoadd.w.rl %r8d,%r14d,(%rcx)
+	ld %ebp,0(%rcx)
+	lw %r12d,4(%rcx)
+	xor %r13d,%r12d,%r12d
+	ori %r13d,%r13d,1
+	sw %r13d,0(%rsi)
+#START _litmus_P0
+	lw %edi,0(%rax)
+	fence rw,rw
+	ori %r10d,x0,1
+	sw %r10d,0(%rdx)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Test LB-mixed1.litmus failed !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Reported: Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dira2d3d2.tmp/LB-mixed1.exe /tmp/dira2d3d2.tmp/utils.c /tmp/dira2d3d2.tmp/litmus_rand.c /tmp/dira2d3d2.tmp/outs.c /tmp/dira2d3d2.tmp/LB-mixed1.c' failed
+
+Machine:HYVLAB8
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 800.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 2500.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 2564.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+
+
+
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 900.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+Revision exported, version 7.57
+Command line: litmus7 LB-mixed1.litmus
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+Running test: LB-mixed2.litmus
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for LB-mixed2.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RISCV LB+mixed2
+"at some point this was allowed by the axiomatic and forbidden by the
+operational (not sure which was is correct)"
+
+{
+ uint32_t y=0;
+ 0:x6=x; 0:x8=y;
+ 1:x6=y; 1:x12=x;
+}
+ P0          | P1            ;
+ lw x5,0(x6) | ori x5,x0,17  ;
+ fence rw,rw | sh x5,2(x6)   ;
+ ori x7,x0,1 | lw x7,0(x6)   ;
+ sh x7,0(x8) | lw x8,0(x6)   ;
+             | lh x9,2(x6)   ;
+             | xor x10,x9,x9 ;
+             | ori x10,x10,1 ;
+             | sw x10,0(x12) ;
+
+exists ([x]=2 /\ [y]=1114113 /\ 0:x5=1 /\ 1:x7=1114113 /\ 1:x8=1114113 /\ 1:x9=17)
+Generated assembler
+/tmp/dir55ba08.tmp/LB-mixed2.c: Assembler messages:
+/tmp/dir55ba08.tmp/LB-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dir55ba08.tmp/LB-mixed2.c:269: Error: no such instruction: `ori %r12d,x0,17'
+/tmp/dir55ba08.tmp/LB-mixed2.c:271: Error: no such instruction: `sh %r12d,2(%rax)'
+/tmp/dir55ba08.tmp/LB-mixed2.c:273: Error: no such instruction: `lw %edi,0(%rax)'
+/tmp/dir55ba08.tmp/LB-mixed2.c:275: Error: no such instruction: `lw %r8d,0(%rax)'
+/tmp/dir55ba08.tmp/LB-mixed2.c:277: Error: no such instruction: `lh %r9d,2(%rax)'
+/tmp/dir55ba08.tmp/LB-mixed2.c:279: Error: number of operands mismatch for `xor'
+/tmp/dir55ba08.tmp/LB-mixed2.c:281: Error: no such instruction: `ori %ebx,%ebx,1'
+/tmp/dir55ba08.tmp/LB-mixed2.c:283: Error: no such instruction: `sw %ebx,0(%rcx)'
+/tmp/dir55ba08.tmp/LB-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dir55ba08.tmp/LB-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dir55ba08.tmp/LB-mixed2.c:235: Error: no such instruction: `lw %edi,0(%rax)'
+/tmp/dir55ba08.tmp/LB-mixed2.c:237: Error: no such instruction: `fence rw,rw'
+/tmp/dir55ba08.tmp/LB-mixed2.c:239: Error: no such instruction: `ori %r10d,x0,1'
+/tmp/dir55ba08.tmp/LB-mixed2.c:241: Error: no such instruction: `sh %r10d,0(%rdx)'
+/tmp/dir55ba08.tmp/LB-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+File "LB-mixed2.litmus" Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dir55ba08.tmp/LB-mixed2.exe /tmp/dir55ba08.tmp/utils.c /tmp/dir55ba08.tmp/litmus_rand.c /tmp/dir55ba08.tmp/outs.c /tmp/dir55ba08.tmp/LB-mixed2.c' failed
+#START _litmus_P1
+	ori %r12d,x0,17
+	sh %r12d,2(%rax)
+	lw %edi,0(%rax)
+	lw %r8d,0(%rax)
+	lh %r9d,2(%rax)
+	xor %ebx,%r9d,%r9d
+	ori %ebx,%ebx,1
+	sw %ebx,0(%rcx)
+#START _litmus_P0
+	lw %edi,0(%rax)
+	fence rw,rw
+	ori %r10d,x0,1
+	sh %r10d,0(%rdx)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Test LB-mixed2.litmus failed !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Reported: Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dir55ba08.tmp/LB-mixed2.exe /tmp/dir55ba08.tmp/utils.c /tmp/dir55ba08.tmp/litmus_rand.c /tmp/dir55ba08.tmp/outs.c /tmp/dir55ba08.tmp/LB-mixed2.c' failed
+
+Machine:HYVLAB8
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 1267.869
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 900.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 900.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 1100.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+Revision exported, version 7.57
+Command line: litmus7 LB-mixed2.litmus
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+Running test: LB-mixed3.litmus
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for LB-mixed3.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RISCV LB+mixed3
+"at some point this was allowed by the axiomatic and forbidden by the
+operational (not sure which was is correct)"
+
+{
+ uint32_t y=0;
+ 0:x6=x; 0:x8=y;
+ 1:x6=y; 1:x12=x;
+}
+ P0          | P1            ;
+ lw x5,0(x6) | lw x8,0(x6)   ;
+ fence rw,rw | lh x9,2(x6)   ;
+ ori x7,x0,1 | xor x10,x9,x9 ;
+ sh x7,0(x8) | ori x10,x10,1 ;
+             | sw x10,0(x12) ;
+
+exists ([x]=2 /\ [y]=1114113 /\ 0:x5=1 /\ 1:x7=1114113 /\ 1:x8=1114113 /\ 1:x9=17)
+Generated assembler
+/tmp/dirc19054.tmp/LB-mixed3.c: Assembler messages:
+/tmp/dirc19054.tmp/LB-mixed3.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dirc19054.tmp/LB-mixed3.c:268: Error: no such instruction: `lw %r8d,0(%rcx)'
+/tmp/dirc19054.tmp/LB-mixed3.c:270: Error: no such instruction: `lh %ebx,2(%rcx)'
+/tmp/dirc19054.tmp/LB-mixed3.c:272: Error: number of operands mismatch for `xor'
+/tmp/dirc19054.tmp/LB-mixed3.c:274: Error: no such instruction: `ori %r12d,%r12d,1'
+/tmp/dirc19054.tmp/LB-mixed3.c:276: Error: no such instruction: `sw %r12d,0(%rsi)'
+/tmp/dirc19054.tmp/LB-mixed3.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dirc19054.tmp/LB-mixed3.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dirc19054.tmp/LB-mixed3.c:235: Error: no such instruction: `lw %edi,0(%rax)'
+/tmp/dirc19054.tmp/LB-mixed3.c:237: Error: no such instruction: `fence rw,rw'
+/tmp/dirc19054.tmp/LB-mixed3.c:239: Error: no such instruction: `ori %r10d,x0,1'
+/tmp/dirc19054.tmp/LB-mixed3.c:241: Error: no such instruction: `sh %r10d,0(%rdx)'
+/tmp/dirc19054.tmp/LB-mixed3.c:42: Error: no such instruction: `fence rw,rw'
+File "LB-mixed3.litmus" Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dirc19054.tmp/LB-mixed3.exe /tmp/dirc19054.tmp/utils.c /tmp/dirc19054.tmp/litmus_rand.c /tmp/dirc19054.tmp/outs.c /tmp/dirc19054.tmp/LB-mixed3.c' failed
+#START _litmus_P1
+	lw %r8d,0(%rcx)
+	lh %ebx,2(%rcx)
+	xor %r12d,%ebx,%ebx
+	ori %r12d,%r12d,1
+	sw %r12d,0(%rsi)
+#START _litmus_P0
+	lw %edi,0(%rax)
+	fence rw,rw
+	ori %r10d,x0,1
+	sh %r10d,0(%rdx)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Test LB-mixed3.litmus failed !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Reported: Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dirc19054.tmp/LB-mixed3.exe /tmp/dirc19054.tmp/utils.c /tmp/dirc19054.tmp/litmus_rand.c /tmp/dirc19054.tmp/outs.c /tmp/dirc19054.tmp/LB-mixed3.c' failed
+
+Machine:HYVLAB8
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 2837.214
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 3100.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 900.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 800.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+Revision exported, version 7.57
+Command line: litmus7 LB-mixed3.litmus
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+Running test: LR-SC-mixed1.litmus
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for LR-SC-mixed1.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RISCV LR-SC-mixed1
+"the footprint of the lr determines the size of reservation (and it is
+not reduced to the part overlapping with the sc)"
+
+{
+ uint64_t x=0;
+ 0:x6=x;
+ 1:x6=x;
+}
+ P0               | P1               ;
+ lr.d x5,0(x6)    | lr.d x5,0(x6)    ;
+ ori x7,x0,1      | ori x7,x0,1      ;
+ sc.w x8,x7,0(x6) | addi x9,x6,4     ;
+                  | sc.w x8,x7,0(x9) ;
+
+~exists ([x]=4294967297 /\ 0:x5=0 /\ 0:x8=0 /\ 1:x5=0 /\ 1:x8=0)
+Generated assembler
+/tmp/dir96984c.tmp/LR-SC-mixed1.c: Assembler messages:
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:253: Error: no such instruction: `lr.d %edx,0(%rax)'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:255: Error: no such instruction: `ori %r11d,x0,1'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:257: Error: no such instruction: `addi %r10d,%rax,4'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:259: Error: no such instruction: `sc.w %edi,%r11d,0(%r10d)'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:221: Error: no such instruction: `lr.d %edx,0(%rax)'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:223: Error: no such instruction: `ori %r10d,x0,1'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:225: Error: no such instruction: `sc.w %edi,%r10d,0(%rax)'
+/tmp/dir96984c.tmp/LR-SC-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+File "LR-SC-mixed1.litmus" Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dir96984c.tmp/LR-SC-mixed1.exe /tmp/dir96984c.tmp/utils.c /tmp/dir96984c.tmp/litmus_rand.c /tmp/dir96984c.tmp/outs.c /tmp/dir96984c.tmp/LR-SC-mixed1.c' failed
+#START _litmus_P1
+	lr.d %edx,0(%rax)
+	ori %r11d,x0,1
+	addi %r10d,%rax,4
+	sc.w %edi,%r11d,0(%r10d)
+#START _litmus_P0
+	lr.d %edx,0(%rax)
+	ori %r10d,x0,1
+	sc.w %edi,%r10d,0(%rax)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Test LR-SC-mixed1.litmus failed !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Reported: Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dir96984c.tmp/LR-SC-mixed1.exe /tmp/dir96984c.tmp/utils.c /tmp/dir96984c.tmp/litmus_rand.c /tmp/dir96984c.tmp/outs.c /tmp/dir96984c.tmp/LR-SC-mixed1.c' failed
+
+Machine:HYVLAB8
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 2865.316
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 1400.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 1000.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 1500.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+Revision exported, version 7.57
+Command line: litmus7 LR-SC-mixed1.litmus
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+Running test: LR-SC-mixed2.litmus
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for LR-SC-mixed2.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RISCV LR-SC-mixed2
+"the footprint of the lr determines the size of reservation (and it is
+not reduced to the part overlapping with the sc)"
+
+{
+ uint64_t x=0;
+ 0:x6=x; 0:x9=y;
+ 1:x6=x; 1:x9=z;
+}
+ P0                  | P1                  ;
+ lr.d x5,0(x6)       | lr.d x5,0(x6)       ;
+ ori x7,x0,1         | ori x7,x0,1         ;
+ sw x7,0(x6)         | sw x7,4(x6)         ;
+ sc.w.rl x8,x7,0(x9) | sc.w.rl x8,x7,0(x9) ;
+
+~exists ([x]=4294967297 /\ [y]=1 /\ [z]=1 /\ 0:x5=0 /\ 0:x8=0 /\ 1:x5=0 /\ 1:x8=0)
+Generated assembler
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c: Assembler messages:
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:282: Error: no such instruction: `lr.d %edi,0(%rax)'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:284: Error: no such instruction: `ori %r11d,x0,1'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:286: Error: no such instruction: `sw %r11d,4(%rax)'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:288: Error: no such instruction: `sc.w.rl %r8d,%r11d,0(%rcx)'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:249: Error: no such instruction: `lr.d %edi,0(%rax)'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:251: Error: no such instruction: `ori %r11d,x0,1'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:253: Error: no such instruction: `sw %r11d,0(%rax)'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:255: Error: no such instruction: `sc.w.rl %r8d,%r11d,0(%rcx)'
+/tmp/dire4bf00.tmp/LR-SC-mixed2.c:42: Error: no such instruction: `fence rw,rw'
+File "LR-SC-mixed2.litmus" Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dire4bf00.tmp/LR-SC-mixed2.exe /tmp/dire4bf00.tmp/utils.c /tmp/dire4bf00.tmp/litmus_rand.c /tmp/dire4bf00.tmp/outs.c /tmp/dire4bf00.tmp/LR-SC-mixed2.c' failed
+#START _litmus_P1
+	lr.d %edi,0(%rax)
+	ori %r11d,x0,1
+	sw %r11d,4(%rax)
+	sc.w.rl %r8d,%r11d,0(%rcx)
+#START _litmus_P0
+	lr.d %edi,0(%rax)
+	ori %r11d,x0,1
+	sw %r11d,0(%rax)
+	sc.w.rl %r8d,%r11d,0(%rcx)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Test LR-SC-mixed2.litmus failed !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Reported: Exec of 'gcc -Wall -std=gnu99 -O2 -pthread -o /tmp/dire4bf00.tmp/LR-SC-mixed2.exe /tmp/dire4bf00.tmp/utils.c /tmp/dire4bf00.tmp/litmus_rand.c /tmp/dire4bf00.tmp/outs.c /tmp/dire4bf00.tmp/LR-SC-mixed2.c' failed
+
+Machine:HYVLAB8
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 2842.980
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 1100.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 2918.724
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 800.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+Revision exported, version 7.57
+Command line: litmus7 LR-SC-mixed2.litmus
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ ls
+@all  LB-mixed1.litmus  LB-mixed2.litmus  LB-mixed3.litmus  LR-SC-mixed1.litmus  LR-SC-mixed2.litmus  RISV_HAND_output.txt  run_litmus_risv_HAND.sh
+

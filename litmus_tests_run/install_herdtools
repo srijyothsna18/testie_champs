@@ -1,0 +1,701 @@
+vlab@HYVLAB8:~/Desktop/COMPANY TRAINING$ cd ..
+vlab@HYVLAB8:~/Desktop$ ls
+ C_Herd_Output       herdtools7                  riscv-toolchain
+'COMPANY TRAINING'   Litmus                      session_output.txt
+ fence               litmus-tests-riscv          test_C
+ fence.litmus        Litmus_test.txt             test.litmus
+ hello               no_fence
+ hello.c             riscv-linux-gnu-toolchain
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus
+
+Command 'litmus7' not found, did you mean:
+
+  command 'litmus' from deb litmus (0.13-2)
+
+Try: sudo apt install <deb name>
+
+vlab@HYVLAB8:~/Desktop$ source ./bashrc
+bash: ./bashrc: No such file or directory
+vlab@HYVLAB8:~/Desktop$ cd
+vlab@HYVLAB8:~$ cd .bashrc
+bash: cd: .bashrc: Not a directory
+vlab@HYVLAB8:~$ ls
+C_outputFile  Documents  Herd7_output  Pictures  qemu_riscv_hello    Riscv64_tests_qemu     snap  STM32Cube     Templates
+Desktop       Downloads  Music         Public    Random_litmusTests  Riscv_first_litmusRun  sri   STM32CubeIDE  Videos
+vlab@HYVLAB8:~$ cd /
+vlab@HYVLAB8:/$ ls
+bin   cdrom  etc   lib    lib64   lost+found  mnt  proc  run   snap  swapfile  tmp  var
+boot  dev    home  lib32  libx32  media       opt  root  sbin  srv   sys       usr
+vlab@HYVLAB8:/$ cd ~
+vlab@HYVLAB8:~$ cd .bashrc
+bash: cd: .bashrc: Not a directory
+vlab@HYVLAB8:~$ ls -c
+Documents  Pictures               sri                 Desktop           Random_litmusTests  C_outputFile  STM32CubeIDE  Music   Templates
+Downloads  Riscv_first_litmusRun  Riscv64_tests_qemu  qemu_riscv_hello  Herd7_output        STM32Cube     snap          Public  Videos
+vlab@HYVLAB8:~$ ls -a
+.              .cache        Documents   Herd7_output  .opam     qemu_riscv_hello       sri            .stm32cubemx               Templates
+..             .config       Downloads   .java         Pictures  Random_litmusTests     .ssh           .stmcube                   Videos
+.bash_history  C_outputFile  .eclipse    .local        .pki      Riscv64_tests_qemu     STM32Cube      .stmcufinder               .viminfo
+.bash_logout   Desktop       .gitconfig  .mozilla      .profile  Riscv_first_litmusRun  .stm32cubeide  .sudo_as_admin_successful  .wine
+.bashrc        .docker       .gnupg      Music         Public    snap                   STM32CubeIDE   .swt
+vlab@HYVLAB8:~$ source ./bashrc
+bash: ./bashrc: No such file or directory
+vlab@HYVLAB8:~$ source .bashrc
+vlab@HYVLAB8:~$ cd Desktop/
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus
+
+Command 'litmus7' not found, did you mean:
+
+  command 'litmus' from deb litmus (0.13-2)
+
+Try: sudo apt install <deb name>
+
+vlab@HYVLAB8:~/Desktop$ cd ..
+vlab@HYVLAB8:~$ cat .bashrc
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+export PATH=$PATH:$(pwd)/_build/install/default/bin
+vlab@HYVLAB8:~$ cd Desktop/
+vlab@HYVLAB8:~/Desktop$ cd herdtools7/
+vlab@HYVLAB8:~/Desktop/herdtools7$ ls
+asllib     CHANGES.txt  dune             dune-uninstall.sh        herd             index.mld   jingle       litmus      README.md  version-gen.sh
+_build     defs.sh      dune-install.sh  dune-workspace.versions  herdtools7.opam  INSTALL.md  lib          Makefile    _tags      Version.ml
+catalogue  doc          dune-project     gen                      herd-www         internal    LICENSE.txt  publish.sh  tools      VERSION.txt
+vlab@HYVLAB8:~/Desktop/herdtools7$ ls -a
+.          CHANGES.txt      dune-project             .gitattributes   herd-www    lib           .pre-commit-config.yaml  version-gen.sh
+..         defs.sh          dune-uninstall.sh        .github          index.mld   LICENSE.txt   publish.sh               Version.ml
+asllib     doc              dune-workspace.versions  .gitignore       INSTALL.md  litmus        README.md                VERSION.txt
+_build     dune             gen                      herd             internal    Makefile      _tags
+catalogue  dune-install.sh  .git                     herdtools7.opam  jingle      .ocamlformat  tools
+vlab@HYVLAB8:~/Desktop/herdtools7$ source .bashrc
+bash: .bashrc: No such file or directory
+vlab@HYVLAB8:~/Desktop/herdtools7$ litmus7 test.litmus
+
+Command 'litmus7' not found, did you mean:
+
+  command 'litmus' from deb litmus (0.13-2)
+
+Try: sudo apt install <deb name>
+
+vlab@HYVLAB8:~/Desktop/herdtools7$ make
+Makefile:62: *** "Could not find menhir in PATH; it can be installed with `opam install menhir`.".  Stop.
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam init
+
+<><> Required setup - please read <><><><><><><><><><><><><><><><><><><><><><><>
+
+  In normal operation, opam only alters files within ~/.opam.
+
+  However, to best integrate with your system, some environment variables
+  should be set. If you allow it to, this initialisation step will update
+  your bash configuration by adding the following line to ~/.profile:
+
+    test -r /home/vlab/.opam/opam-init/init.sh && . /home/vlab/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+  Otherwise, every time you want to access your opam installation, you will
+  need to run:
+
+    eval $(opam env)
+
+  You can always re-run this setup with 'opam init' later.
+
+Do you want opam to modify ~/.profile? [N/y/f]
+(default is 'no', use 'f' to choose a different file) 
+A hook can be added to opam's init scripts to ensure that the shell remains in sync with the opam environment when they are loaded. Set that up?
+[y/N] n
+vlab@HYVLAB8:~/Desktop/herdtools7$ eval $(opam env)
+vlab@HYVLAB8:~/Desktop/herdtools7$ make
+sh ./version-gen.sh $HOME
+dune build -j 4 --profile release
+File "lib/dune", line 69, characters 23-29:
+69 |  (libraries str asllib zarith)
+                            ^^^^^^
+Error: Library "zarith" not found.
+-> required by library "herdtools" in _build/default/lib
+-> required by executables herd_catalogue_regression_test,
+   herd_diycross_regression_test, herd_regression_test, lint_shelves,
+   herd_redirect, herd_test and herd_promote in internal/dune:2
+-> required by _build/default/internal/herd_catalogue_regression_test.exe
+-> required by alias internal/all
+-> required by alias default in dune:8
+File "asllib/dune", line 37, characters 22-28:  
+37 |  (libraries menhirLib zarith))
+                           ^^^^^^
+Error: Library "zarith" not found.
+-> required by library "herdtools7.asllib" in _build/default/asllib
+-> required by _build/default/META.herdtools7
+-> required by _build/install/default/lib/herdtools7/META
+-> required by _build/default/herdtools7.install
+-> required by alias install
+-> required by alias default in dune:8
+File "asllib/dune", lines 10-11, characters 0-26:
+10 | (menhir
+11 |  (modules Parser))
+Fatal error: exception File "src/action.ml", line 78, characters 6-12: Assertion failed
+File "asllib/dune", lines 13-15, characters 0-60:
+13 | (menhir
+14 |  (modules Parser0)
+15 |  (flags --unused-tokens --table))
+Fatal error: exception File "src/action.ml", line 78, characters 6-12: Assertion failed
+File "asllib/AST.mli", line 297, characters 15-16:
+Error: Syntax error
+File "asllib/Interpreter.ml", line 108, characters 8-11:
+Error: Syntax error: operator expected.
+File "asllib/StaticModel.ml", line 97, characters 35-37:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 107, characters 34-36:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 128, characters 19-21:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 129, characters 19-21:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 141, characters 33-35:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 143, characters 49-51:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 145, characters 39-41:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 622, characters 28-30:
+Error: Syntax error
+File "asllib/types.ml", line 713, characters 26-28:
+Error: Syntax error
+File "asllib/Typing.ml", line 181, characters 26-28:
+Error: Syntax error
+File "herd/AArch64ASLSem.ml", line 35, characters 8-11:
+Error: Syntax error: operator expected.
+File "herd/AArch64Sem.ml", line 1743, characters 24-25:
+Error: Syntax error
+make: *** [Makefile:35: just-build] Error 1         
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam install zarith
+
+The following actions will be performed:
+  - install conf-perl 2    [required by zarith]
+  - install conf-gmp  4    [required by zarith]
+  - install zarith    1.11
+===== 3 to install =====
+Do you want to continue? [Y/n] Y
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[zarith.1.11] downloaded from cache at https://opam.ocaml.org/cache
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> installed conf-perl.2
+-> installed conf-gmp.4
+-> installed zarith.1.11
+Done.
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam install menhir
+[NOTE] Package menhir is already installed (current version is 20211012).
+vlab@HYVLAB8:~/Desktop/herdtools7$ eval $(opam env)
+vlab@HYVLAB8:~/Desktop/herdtools7$ make
+sh ./version-gen.sh $HOME
+dune build -j 4 --profile release
+File "lib/AArch64Base.ml", line 2991, characters 43-44:
+Error: Syntax error: operator expected.
+File "lib/ASLBase.ml", line 87, characters 8-11:
+Error: Syntax error: operator expected.
+File "lib/ASLOp.ml", line 84, characters 6-9:
+Error: Syntax error: operator expected.
+File "lib/misc.ml", line 67, characters 8-11:       
+Error: Syntax error: operator expected.
+File "asllib/Interpreter.ml", line 108, characters 8-11:
+Error: Syntax error: operator expected.
+File "asllib/StaticModel.ml", line 97, characters 35-37:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 107, characters 34-36:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 128, characters 19-21:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 129, characters 19-21:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 141, characters 33-35:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 143, characters 49-51:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 145, characters 39-41:
+Warning 14: illegal backslash escape in string.
+File "asllib/StaticModel.ml", line 622, characters 28-30:
+Error: Syntax error
+File "asllib/Typing.ml", line 181, characters 26-28:
+Error: Syntax error
+File "asllib/types.ml", line 713, characters 26-28: 
+Error: Syntax error
+File "asllib/instrumentation.ml", line 332, characters 50-72:
+Error: Unbound value String.lowercase_ascii
+File "asllib/dune", lines 10-11, characters 0-26:   
+10 | (menhir
+11 |  (modules Parser))
+Fatal error: exception File "src/action.ml", line 78, characters 6-12: Assertion failed
+File "asllib/dune", lines 13-15, characters 0-60:   
+13 | (menhir
+14 |  (modules Parser0)
+15 |  (flags --unused-tokens --table))
+Fatal error: exception File "src/action.ml", line 78, characters 6-12: Assertion failed
+File "asllib/AST.mli", line 297, characters 15-16:   
+Error: Syntax error
+File "asllib/splitasl.mli", line 25, characters 29-49:
+Error: Unbound module Seq
+File "asllib/diet.mli", line 137, characters 30-51:  
+Error: Unbound type constructor result
+File "herd/AArch64ASLSem.ml", line 35, characters 8-11:
+Error: Syntax error: operator expected.
+File "herd/AArch64Sem.ml", line 1743, characters 24-25:
+Error: Syntax error
+File "lib/X86_64Parser.mly", line 18, characters 5-11:
+Error: Syntax error
+File "asllib/bitvector.ml", line 147, characters 11-20:
+Error: Unbound module Int
+make: *** [Makefile:35: just-build] Error 1          
+vlab@HYVLAB8:~/Desktop/herdtools7$ ocamlc -version
+4.02.3
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam switch create 4.12.0
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[ocaml-config.2/gen_ocaml_config.ml.in] downloaded from https://opam.ocaml.org/cache
+[ocaml-base-compiler.4.12.0] downloaded from cache at https://opam.ocaml.org/cache
+[ocaml-base-compiler.4.12.0/alt-signal-stack.patch] downloaded from https://opam.ocaml.org/cache
+[ocaml-base-compiler.4.12.0/ocaml-base-compiler.install] downloaded from https://opam.ocaml.org/cache
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> installed base-bigarray.base
+-> installed base-threads.base
+-> installed base-unix.base
+-> installed ocaml-options-vanilla.1
+-> installed ocaml-base-compiler.4.12.0
+-> installed ocaml-config.2
+-> installed ocaml.4.12.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+vlab@HYVLAB8:~/Desktop/herdtools7$ eval $(opam env)
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam upgrade
+Everything as up-to-date as possible (run with --verbose to show unavailable upgrades).
+However, you may "opam upgrade" these packages explicitly, which will ask permission to downgrade or uninstall the conflicting packages.
+Nothing to do.
+vlab@HYVLAB8:~/Desktop/herdtools7$ make clean
+dune clean
+make: dune: Command not found
+make: *** [Makefile:52: dune-clean] Error 127
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam install dune
+The following actions will be performed:
+  - install dune 3.16.0
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[dune.3.16.0] found in cache
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> installed dune.3.16.0
+Done.
+vlab@HYVLAB8:~/Desktop/herdtools7$ eval $(opam env)
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam upgrade
+Everything as up-to-date as possible (run with --verbose to show unavailable upgrades).
+However, you may "opam upgrade" these packages explicitly, which will ask permission to downgrade or uninstall the conflicting packages.
+Nothing to do.
+vlab@HYVLAB8:~/Desktop/herdtools7$ make clean
+dune clean
+make[1]: Entering directory '/home/vlab/Desktop/herdtools7/herd/libdir/asl-pseudocode'
+rm -fr aarch64 shared_pseudocode.asl other-instrs ISA_A64_xml_A_profile-2023-09.log ISA_AArch32_xml_A_profile-2023-09.log SysReg_xml_A_profile-2023-09.log
+make[1]: Leaving directory '/home/vlab/Desktop/herdtools7/herd/libdir/asl-pseudocode'
+rm -f Version.ml
+vlab@HYVLAB8:~/Desktop/herdtools7$ make
+Makefile:62: *** "Could not find menhir in PATH; it can be installed with `opam install menhir`.".  Stop.
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam install menhir
+The following actions will be performed:
+  - install menhirLib 20240715 [required by menhir]
+  - install menhirCST 20240715 [required by menhir]
+  - install menhirSdk 20240715 [required by menhir]
+  - install menhir    20240715
+===== 4 to install =====
+Do you want to continue? [Y/n] Y
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[menhir.20240715] found in cache
+[menhirCST.20240715] found in cache
+[menhirLib.20240715] found in cache
+[menhirSdk.20240715] found in cache
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> installed menhirCST.20240715
+-> installed menhirSdk.20240715
+-> installed menhirLib.20240715
+-> installed menhir.20240715
+Done.
+vlab@HYVLAB8:~/Desktop/herdtools7$ eval $(opam env)
+vlab@HYVLAB8:~/Desktop/herdtools7$ make
+sh ./version-gen.sh $HOME
+dune build -j 4 --profile release
+File "lib/dune", line 69, characters 23-29:
+69 |  (libraries str asllib zarith)
+                            ^^^^^^
+Error: Library "zarith" not found.
+-> required by library "herdtools" in _build/default/lib
+-> required by executables herd_catalogue_regression_test,
+   herd_diycross_regression_test, herd_regression_test, lint_shelves,
+   herd_redirect, herd_test and herd_promote in internal/dune:2
+-> required by _build/default/internal/herd_catalogue_regression_test.exe
+-> required by alias internal/all
+-> required by alias default in dune:8
+File "asllib/dune", line 37, characters 22-28:  
+37 |  (libraries menhirLib zarith))
+                           ^^^^^^
+Error: Library "zarith" not found.
+-> required by library "herdtools7.asllib" in _build/default/asllib
+-> required by _build/default/META.herdtools7
+-> required by _build/install/default/lib/herdtools7/META
+-> required by _build/default/herdtools7.install
+-> required by alias install
+-> required by alias default in dune:8
+make: *** [Makefile:35: just-build] Error 1         
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam install zarith'
+> ^C
+vlab@HYVLAB8:~/Desktop/herdtools7$ opam install zarith
+The following actions will be performed:
+  - install conf-gmp        4     [required by zarith]
+  - install conf-pkg-config 3     [required by zarith]
+  - install ocamlfind       1.9.6 [required by zarith]
+  - install zarith          1.14
+===== 4 to install =====
+Do you want to continue? [Y/n] Y
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[ocamlfind.1.9.6] found in cache
+[zarith.1.14] found in cache
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> installed conf-gmp.4
+-> installed conf-pkg-config.3
+-> installed ocamlfind.1.9.6
+-> installed zarith.1.14
+Done.
+vlab@HYVLAB8:~/Desktop/herdtools7$ make
+sh ./version-gen.sh $HOME
+dune build -j 4 --profile release
+vlab@HYVLAB8:~/Desktop/herdtools7$ cd ..  
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus 
+
+Command 'litmus7' not found, did you mean:
+
+  command 'litmus' from deb litmus (0.13-2)
+
+Try: sudo apt install <deb name>
+
+vlab@HYVLAB8:~/Desktop$ cd
+vlab@HYVLAB8:~$ source .bashrc
+vlab@HYVLAB8:~$ cd Desktop/
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus 
+File "test.litmus" Cannot find file header.txt
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Test test.litmus failed !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Reported: Cannot find file header.txt
+
+Fatal error: exception Misc.Fatal("Cannot find file _show.awk")
+vlab@HYVLAB8:~/Desktop$ cat test.litmus 
+X86 SB
+"Fre PodWR Fre PodWR"
+{ x=0; y=0; }
+P0 | P1 ;
+MOV [x],$1 | MOV [y],$1 ;
+MOV EAX,[y] | MOV EAX,[x] ;
+locations [x;y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+vlab@HYVLAB8:~/Desktop$ herd7 test.litmus 
+Warning: File "test.litmus": Cannot find file x86tso.cat
+vlab@HYVLAB8:~/Desktop$ find . -name header.txt
+./herdtools7/litmus/libdir/header.txt
+vlab@HYVLAB8:~/Desktop$ find . -name _show.awk
+./herdtools7/litmus/libdir/_show.awk
+vlab@HYVLAB8:~/Desktop$ export LITMUSDIR=/path/to/herdtools7/litmus
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus 
+File "test.litmus" Cannot find file header.txt
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Test test.litmus failed !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Reported: Cannot find file header.txt
+
+Fatal error: exception Misc.Fatal("Cannot find file _show.awk")
+vlab@HYVLAB8:~/Desktop$ export LITMUSDIR=/home/vlab/Desktop/herdtools7/litmus/libdir
+vlab@HYVLAB8:~/Desktop$ echo $LITMUSDIR
+/home/vlab/Desktop/herdtools7/litmus/libdir
+vlab@HYVLAB8:~/Desktop$ litmus7 test.litmus
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Results for test.litmus %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+X86 SB
+"Fre PodWR Fre PodWR"
+
+{
+ [x]=0;
+ [y]=0;
+}
+ P0          | P1          ;
+ MOV [x],$1  | MOV [y],$1  ;
+ MOV EAX,[y] | MOV EAX,[x] ;
+
+locations [x; y;]
+exists (0:EAX=0 /\ 1:EAX=0)
+Generated assembler
+#START _litmus_P1
+	movl $1,(%rdi,%rcx)
+	movl (%rdx,%rcx),%eax
+#START _litmus_P0
+	movl $1,(%rdx,%rcx)
+	movl (%rdi,%rcx),%eax
+
+Test SB Allowed
+Histogram (3 states)
+6     *>0:EAX=0; 1:EAX=0; [x]=1; [y]=1;
+499998:>0:EAX=1; 1:EAX=0; [x]=1; [y]=1;
+499996:>0:EAX=0; 1:EAX=1; [x]=1; [y]=1;
+Ok
+
+Witnesses
+Positive: 6, Negative: 999994
+Condition exists (0:EAX=0 /\ 1:EAX=0) is validated
+Hash=2d53e83cd627ba17ab11c875525e078b
+Observation SB Sometimes 6 999994
+Time SB 0.14
+
+Machine:HYVLAB8
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 800.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 800.000
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 2713.474
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 0
+cpu cores	: 2
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i3-4160T CPU @ 3.10GHz
+stepping	: 3
+microcode	: 0x28
+cpu MHz		: 1862.119
+cache size	: 3072 KB
+physical id	: 0
+siblings	: 4
+core id		: 1
+cpu cores	: 2
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm arat pln pts md_clear flush_l1d
+vmx flags	: vnmi preemption_timer invvpid ept_x_only ept_ad ept_1gb flexpriority tsc_offset vtpr mtf vapic ept vpid unrestricted_guest ple
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs itlb_multihit srbds mmio_unknown
+bogomips	: 6185.83
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+Revision d21b2c0b0da97f29bba573c500894f3dd0e10378, version 7.57+1
+Command line: litmus7 test.litmus
+Parameters
+#define SIZE_OF_TEST 100000
+#define NUMBER_OF_RUN 10
+#define AVAIL 1
+#define STRIDE (-1)
+#define MAX_LOOP 0
+/* gcc options: -Wall -std=gnu99 -fomit-frame-pointer -O2 -pthread */
+/* barrier: user */
+/* launch: changing */
+/* affinity: none */
+/* memory: direct */
+/* safer: write */
+/* preload: random */
+/* speedcheck: no */
+/* alloc: dynamic */
+

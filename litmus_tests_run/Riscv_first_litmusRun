@@ -1,0 +1,149 @@
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ mkdir litmus_C_scripts
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ tar -xvf litmus_tests.tar -C ~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts
+./
+./run.sh
+./show.awk
+./comp.sh
+./LR-SC-mixed2.c
+./utils.h
+./outs.h
+./LB-mixed2.c
+./Makefile
+./litmus_rand.h
+./README.txt
+./litmus_rand.c
+./LR-SC-mixed1.c
+./LB-mixed3.c
+./outs.c
+./utils.c
+./LB-mixed1.c
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND$ cd litmus_C_scripts/
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ ls
+comp.sh      LB-mixed2.c  litmus_rand.c  LR-SC-mixed1.c  Makefile  outs.h      run.sh    utils.c
+LB-mixed1.c  LB-mixed3.c  litmus_rand.h  LR-SC-mixed2.c  outs.c    README.txt  show.awk  utils.h
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ make
+gcc -Wall -std=gnu99 -O2 -pthread -O2 -c outs.c
+gcc -Wall -std=gnu99 -O2 -pthread -O2 -c utils.c
+gcc -Wall -std=gnu99 -O2 -pthread -O2 -c litmus_rand.c
+gcc -Wall -std=gnu99 -O2 -pthread -S LB-mixed1.c
+gcc -Wall -std=gnu99 -O2 -pthread  -o LB-mixed1.exe outs.o utils.o litmus_rand.o LB-mixed1.s
+LB-mixed1.c: Assembler messages:
+LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+LB-mixed1.c:235: Error: no such instruction: `lw %r9d,0(%rax)'
+LB-mixed1.c:237: Error: no such instruction: `ori %r14d,x0,1'
+LB-mixed1.c:239: Error: no such instruction: `amoadd.w.rl %r8d,%r14d,(%rcx)'
+LB-mixed1.c:241: Error: no such instruction: `ld %ebp,0(%rcx)'
+LB-mixed1.c:243: Error: no such instruction: `lw %r12d,4(%rcx)'
+LB-mixed1.c:245: Error: number of operands mismatch for `xor'
+LB-mixed1.c:247: Error: no such instruction: `ori %r13d,%r13d,1'
+LB-mixed1.c:249: Error: no such instruction: `sw %r13d,0(%rsi)'
+LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+LB-mixed1.c:202: Error: no such instruction: `lw %edi,0(%rax)'
+LB-mixed1.c:204: Error: no such instruction: `fence rw,rw'
+LB-mixed1.c:206: Error: no such instruction: `ori %r10d,x0,1'
+LB-mixed1.c:208: Error: no such instruction: `sw %r10d,0(%rdx)'
+LB-mixed1.c:42: Error: no such instruction: `fence rw,rw'
+make: *** [Makefile:34: LB-mixed1.exe] Error 1
+rm LB-mixed1.s
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ ls
+comp.sh      LB-mixed2.c  litmus_rand.c  litmus_rand.o   LR-SC-mixed2.c  outs.c  outs.o      run.sh    utils.c  utils.o
+LB-mixed1.c  LB-mixed3.c  litmus_rand.h  LR-SC-mixed1.c  Makefile        outs.h  README.txt  show.awk  utils.h
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -o utils utils.c 
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/lib/Scrt1.o: in function `_start':
+(.text+0x6): undefined reference to `main'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `.L124':
+utils.c:(.text+0xf08): undefined reference to `rand_bit'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `.L122':
+utils.c:(.text+0xf1e): undefined reference to `rand_k'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `find_color_diff':
+utils.c:(.text+0x1002): undefined reference to `rand_bit'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.c:(.text+0x1018): undefined reference to `rand_k'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `pb_free':
+utils.c:(.text+0x3406): undefined reference to `pthread_create'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `pb_wait':
+utils.c:(.text+0x345c): undefined reference to `pthread_join'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `po_free':
+utils.c:(.text+0x352e): undefined reference to `pthread_create'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `table_pop':
+utils.c:(.text+0x3c6e): undefined reference to `rand_k'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `pool_status':
+utils.c:(.text+0x3d58): undefined reference to `rand_k'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.c:(.text+0x3e0a): undefined reference to `rand_k'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrlrds3.o: in function `.L445':
+utils.c:(.text+0x3ebc): undefined reference to `rand_k'
+collect2: error: ld returned 1 exit status
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -o utils utils.c utils.o
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.o: Relocations in generic ELF (EM: 62)
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.o: Relocations in generic ELF (EM: 62)
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.o: error adding symbols: file in wrong format
+collect2: error: ld returned 1 exit status
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ ls
+comp.sh      LB-mixed2.c  litmus_rand.c  litmus_rand.o   LR-SC-mixed2.c  outs.c  outs.o      run.sh    utils.c  utils.o
+LB-mixed1.c  LB-mixed3.c  litmus_rand.h  LR-SC-mixed1.c  Makefile        outs.h  README.txt  show.awk  utils.h
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -c utils.c -o utils.o
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ vi Makefile 
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ ls
+comp.sh      LB-mixed2.c  litmus_rand.c  litmus_rand.o   LR-SC-mixed2.c  outs.c  outs.o      run.sh    utils.c  utils.o
+LB-mixed1.c  LB-mixed3.c  litmus_rand.h  LR-SC-mixed1.c  Makefile        outs.h  README.txt  show.awk  utils.h
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -c outs.c -o outs.o
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -c litmus_rand.c -o litmus_rand.o
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ vi Makefile 
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -c LB-mixed1.c -o LB1
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ vi LB1
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ qemu-riscv64 ./LB1
+Error while loading ./LB1: Permission denied
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ chmod +x LB1
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ qemu-riscv64 ./LB1
+./LB1: Invalid ELF image for this architecture
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -o LB-mixed1 utils.o outs.o litmus_rand.o LB1
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.o: in function `pb_free':
+utils.c:(.text+0x3406): undefined reference to `pthread_create'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.o: in function `pb_wait':
+utils.c:(.text+0x345c): undefined reference to `pthread_join'
+/usr/lib/gcc-cross/riscv64-linux-gnu/9/../../../../riscv64-linux-gnu/bin/ld: utils.o: in function `po_free':
+utils.c:(.text+0x352e): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ riscv64-linux-gnu-gcc -o LB-mixed1 utils.o outs.o litmus_rand.o LB1 -pthread
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ file LB-mixed1
+LB-mixed1: ELF 64-bit LSB shared object, UCB RISC-V, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-riscv64-lp64d.so.1, BuildID[sha1]=b9e5521eaf5997f7b7bc5ad0d55c74a345f51603, for GNU/Linux 4.15.0, not stripped
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ chmod +x LB-mixed
+chmod: cannot access 'LB-mixed': No such file or directory
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ chmod +x LB-mixed1
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ qemu-riscv64 ./LB-mixed1
+/lib/ld-linux-riscv64-lp64d.so.1: No such file or directory
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/litmus_C_scripts$ qemu-riscv64 -L /usr/riscv64-linux-gnu ./LB-mixed1
+Test LB+mixed1 Allowed
+Histogram (3 states)
+53846 :>0:x5=0; 1:x1=0; 1:x5=0; 1:x9=1; 1:x10=0;
+447162:>0:x5=1; 1:x1=0; 1:x5=0; 1:x9=1; 1:x10=0;
+498992:>0:x5=0; 1:x1=0; 1:x5=1; 1:x9=1; 1:x10=0;
+No
+
+Witnesses
+Positive: 0, Negative: 1000000
+Condition exists (0:x5=1 /\ 1:x1=0 /\ 1:x5=1 /\ 1:x9=1 /\ 1:x10=0) is NOT validated
+Hash=79a8c230a2b40f02ef6ab9d1dd206a3c
+Observation LB+mixed1 Never 0 1000000
+Time LB+mixed1 0.64
+
+
+
+
+***************************make of mixed-size folder************************
+vlab@HYVLAB8:~/Desktop/litmus-tests-riscv/tests/mixed-size/HAND/LB-mixed1$ qemu-riscv64 -L /usr/riscv64-linux-gnu/ -d in_asm  -D LB1.log LB-mixed1
+Test LB+mixed1 Allowed
+Histogram (3 states)
+3270  :>0:x5=0; 1:x1=0; 1:x5=0; 1:x9=1; 1:x10=0;
+496801:>0:x5=1; 1:x1=0; 1:x5=0; 1:x9=1; 1:x10=0;
+499929:>0:x5=0; 1:x1=0; 1:x5=1; 1:x9=1; 1:x10=0;
+No
+
+Witnesses
+Positive: 0, Negative: 1000000
+Condition exists (0:x5=1 /\ 1:x1=0 /\ 1:x5=1 /\ 1:x9=1 /\ 1:x10=0) is NOT validated
+Hash=79a8c230a2b40f02ef6ab9d1dd206a3c
+Observation LB+mixed1 Never 0 1000000
+Time LB+mixed1 0.58
+
+

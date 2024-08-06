@@ -1,0 +1,84 @@
+vlab@HYVLAB8:~/Desktop$ vi hello.c
+vlab@HYVLAB8:~/Desktop$ riscv64-linux-gnu-gcc -o hello hello.c
+vlab@HYVLAB8:~/Desktop$ qemu-riscv64 ./hello
+
+Command 'qemu-riscv64' not found, but can be installed with:
+
+sudo apt install qemu-user
+
+vlab@HYVLAB8:~/Desktop$ which qemu
+vlab@HYVLAB8:~/Desktop$ where is qemu
+where: command not found
+vlab@HYVLAB8:~/Desktop$ whereis qemu
+qemu: /usr/lib/x86_64-linux-gnu/qemu /usr/lib/qemu /usr/share/qemu
+vlab@HYVLAB8:~/Desktop$ sudo apt install qemu-user
+[sudo] password for vlab: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  binfmt-support qemu-user-binfmt
+The following NEW packages will be installed:
+  binfmt-support qemu-user qemu-user-binfmt
+0 upgraded, 3 newly installed, 0 to remove and 275 not upgraded.
+Need to get 16.1 MB of archives.
+After this operation, 172 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+Get:1 http://in.archive.ubuntu.com/ubuntu focal/universe amd64 binfmt-support amd64 2.2.0-2 [58.2 kB]
+Get:2 http://in.archive.ubuntu.com/ubuntu focal-updates/universe amd64 qemu-user amd64 1:4.2-3ubuntu6.29 [16.1 MB]                                   
+Get:3 http://in.archive.ubuntu.com/ubuntu focal-updates/universe amd64 qemu-user-binfmt amd64 1:4.2-3ubuntu6.29 [3,124 B]                            
+Fetched 16.1 MB in 18s (883 kB/s)                                                                                                                    
+Selecting previously unselected package binfmt-support.
+(Reading database ... 171960 files and directories currently installed.)
+Preparing to unpack .../binfmt-support_2.2.0-2_amd64.deb ...
+Unpacking binfmt-support (2.2.0-2) ...
+Selecting previously unselected package qemu-user.
+Preparing to unpack .../qemu-user_1%3a4.2-3ubuntu6.29_amd64.deb ...
+Unpacking qemu-user (1:4.2-3ubuntu6.29) ...
+Selecting previously unselected package qemu-user-binfmt.
+Preparing to unpack .../qemu-user-binfmt_1%3a4.2-3ubuntu6.29_amd64.deb ...
+Unpacking qemu-user-binfmt (1:4.2-3ubuntu6.29) ...
+Setting up qemu-user (1:4.2-3ubuntu6.29) ...
+Setting up binfmt-support (2.2.0-2) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/binfmt-support.service → /lib/systemd/system/binfmt-support.service.
+Setting up qemu-user-binfmt (1:4.2-3ubuntu6.29) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for systemd (245.4-4ubuntu3.23) ...
+vlab@HYVLAB8:~/Desktop$ qemu-riscv64 ./hello
+/lib/ld-linux-riscv64-lp64d.so.1: No such file or directory
+vlab@HYVLAB8:~/Desktop$ which qemu-riscv64
+/usr/bin/qemu-riscv64
+vlab@HYVLAB8:~/Desktop$ which qemu-riscv64
+/usr/bin/qemu-riscv64
+vlab@HYVLAB8:~/Desktop$ qemu-riscv64 ./hello
+/lib/ld-linux-riscv64-lp64d.so.1: No such file or directory
+vlab@HYVLAB8:~/Desktop$ ls
+ C_Herd_Output       hello     herdtools7   litmus-tests-riscv   riscv-linux-gnu-toolchain   session_output.txt
+'COMPANY TRAINING'   hello.c   Litmus       Litmus_test.txt      riscv-toolchain             test.litmus
+vlab@HYVLAB8:~/Desktop$ qemu-riscv64 hello
+/lib/ld-linux-riscv64-lp64d.so.1: No such file or directory
+vlab@HYVLAB8:~/Desktop$ sudo apt-get install qemu-user-binfmt
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+qemu-user-binfmt is already the newest version (1:4.2-3ubuntu6.29).
+qemu-user-binfmt set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 275 not upgraded.
+vlab@HYVLAB8:~/Desktop$ qemu-riscv64 -L /path/to/riscv-rootfs hello
+/lib/ld-linux-riscv64-lp64d.so.1: No such file or directory
+vlab@HYVLAB8:~/Desktop$ sudo apt-get install libc6-riscv64-cross
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+libc6-riscv64-cross is already the newest version (2.31-0ubuntu7cross1).
+libc6-riscv64-cross set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 275 not upgraded.
+vlab@HYVLAB8:~/Desktop$ find / -name ld-linux-riscv64-lp64d.so.1 2>/dev/null
+
+/usr/riscv64-linux-gnu/lib/ld-linux-riscv64-lp64d.so.1
+^C
+vlab@HYVLAB8:~/Desktop$ qemu-riscv64 ./hello
+/lib/ld-linux-riscv64-lp64d.so.1: No such file or directory
+vlab@HYVLAB8:~/Desktop$ qemu-riscv64 -L /usr/riscv64-linux-gnu ./hello
+Hello, RISC-V on QEMU!
+
