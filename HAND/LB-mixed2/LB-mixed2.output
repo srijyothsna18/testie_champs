@@ -1,0 +1,14 @@
+Test LB+mixed2 Allowed
+Histogram (4 states)
+19269 :>0:x5=0; 1:x7=1114112; 1:x8=1114112; 1:x9=17; x=1; y=1114113;
+480579:>0:x5=1; 1:x7=1114112; 1:x8=1114112; 1:x9=17; x=1; y=1114113;
+486   :>0:x5=0; 1:x7=1114112; 1:x8=1114113; 1:x9=17; x=1; y=1114113;
+499666:>0:x5=0; 1:x7=1114113; 1:x8=1114113; 1:x9=17; x=1; y=1114113;
+No
+
+Witnesses
+Positive: 0, Negative: 1000000
+Condition exists (x=2 /\ y=1114113 /\ 0:x5=1 /\ 1:x7=1114113 /\ 1:x8=1114113 /\ 1:x9=17) is NOT validated
+Hash=c6a1c227607ab82dd4a860166a749046
+Observation LB+mixed2 Never 0 1000000
+Time LB+mixed2 0.53

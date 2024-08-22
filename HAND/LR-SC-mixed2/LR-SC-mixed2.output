@@ -1,0 +1,12 @@
+Test LR-SC-mixed2 Forbidden
+Histogram (2 states)
+500006:>0:x5=0; 0:x8=1; 1:x5=0; 1:x8=1; x=4294967297; y=0; z=0;
+499994:>0:x5=0; 0:x8=1; 1:x5=1; 1:x8=1; x=4294967297; y=0; z=0;
+Ok
+
+Witnesses
+Positive: 1000000, Negative: 0
+Condition ~exists (x=4294967297 /\ y=1 /\ z=1 /\ 0:x5=0 /\ 0:x8=0 /\ 1:x5=0 /\ 1:x8=0) is validated
+Hash=a1b719f2ab3fce9f3820bb9b101fd69e
+Observation LR-SC-mixed2 Never 0 1000000
+Time LR-SC-mixed2 0.63

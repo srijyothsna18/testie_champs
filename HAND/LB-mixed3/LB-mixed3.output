@@ -1,0 +1,13 @@
+Test LB+mixed3 Allowed
+Histogram (3 states)
+170   :>0:x5=0; 1:x7=0; 1:x8=0; 1:x9=0; x=1; y=1;
+499844:>0:x5=1; 1:x7=0; 1:x8=0; 1:x9=0; x=1; y=1;
+499986:>0:x5=0; 1:x7=0; 1:x8=1; 1:x9=0; x=1; y=1;
+No
+
+Witnesses
+Positive: 0, Negative: 1000000
+Condition exists (x=2 /\ y=1114113 /\ 0:x5=1 /\ 1:x7=1114113 /\ 1:x8=1114113 /\ 1:x9=17) is NOT validated
+Hash=2bf0d11036826ff879324a0b37b6c7a0
+Observation LB+mixed3 Never 0 1000000
+Time LB+mixed3 0.52
