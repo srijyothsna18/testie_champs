@@ -1,0 +1,10 @@
+---
+src/bit_manipulation.c:
+- TEST
+- USE_STDOUT
+src/temp.c:
+- TEST
+- USE_STDOUT
+build/test/mocks/mock_temp.c:
+- TEST
+- USE_STDOUT

@@ -1,0 +1,24 @@
+---
+:source:
+  :path: test
+  :file: test_bit_manipulation.c
+:successes: []
+:failures:
+- :test: test_bit
+  :line: 31
+  :message: Expected -1 Was 0
+  :unity_test_time: 0
+- :test: test_bit_1
+  :line: 46
+  :message: Expected -1 Was 0
+  :unity_test_time: 0
+:ignores: []
+:counts:
+  :total: 2
+  :passed: 0
+  :failed: 2
+  :ignored: 0
+:stdout:
+- temperature is low
+- temperature is high
+:time: 0.002152369008399546
