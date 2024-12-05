@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requirement-specification>
+<req_spec title="requirement section 01"  doc_id="req-spec-01"  >
+<revision><![CDATA[2]]></revision>
+
+<type><![CDATA[1]]></type>
+
+<node_order><![CDATA[1]]></node_order>
+
+<total_req><![CDATA[0]]></total_req>
+<scope>
+<![CDATA[<p>a section</p>]]>
+</scope>
+	<requirement>
+		<docid><![CDATA[use-case-01]]></docid>
+		<title><![CDATA[use case 01]]></title>
+		<version>1</version>
+		<revision>1</revision>
+		<node_order>1</node_order>
+		<description><![CDATA[<p>a use case</p>]]></description>
+		<status><![CDATA[D]]></status>
+		<type><![CDATA[3]]></type>
+		<expected_coverage><![CDATA[1]]></expected_coverage>
+		
+	</requirement>
+	<requirement>
+		<docid><![CDATA[none-function-01]]></docid>
+		<title><![CDATA[none function requirement 01]]></title>
+		<version>1</version>
+		<revision>1</revision>
+		<node_order>2</node_order>
+		<description><![CDATA[<p>a none functional requirement</p>]]></description>
+		<status><![CDATA[D]]></status>
+		<type><![CDATA[5]]></type>
+		<expected_coverage><![CDATA[1]]></expected_coverage>
+		
+	</requirement>
+	<relation>
+		<source>none-function-01</source>
+		<destination>use-case-01</destination>
+		<type>2</type>
+	</relation>
+</req_spec><req_spec title="user requirement 02"  doc_id="req-spec-02"  >
+<revision><![CDATA[1]]></revision>
+
+<type><![CDATA[2]]></type>
+
+<node_order><![CDATA[2]]></node_order>
+
+<total_req><![CDATA[0]]></total_req>
+<scope>
+<![CDATA[<p>a user requirement</p>]]>
+</scope>
+	<requirement>
+		<docid><![CDATA[restriction-01]]></docid>
+		<title><![CDATA[restriction 01]]></title>
+		<version>1</version>
+		<revision>1</revision>
+		<node_order>1</node_order>
+		<description><![CDATA[<p>a restriction</p>]]></description>
+		<status><![CDATA[D]]></status>
+		<type><![CDATA[6]]></type>
+		<expected_coverage><![CDATA[1]]></expected_coverage>
+		
+	</requirement>
+	<requirement>
+		<docid><![CDATA[user-gui-01]]></docid>
+		<title><![CDATA[user gui 01]]></title>
+		<version>1</version>
+		<revision>1</revision>
+		<node_order>2</node_order>
+		<description><![CDATA[<p>a user gui</p>]]></description>
+		<status><![CDATA[D]]></status>
+		<type><![CDATA[4]]></type>
+		<expected_coverage><![CDATA[1]]></expected_coverage>
+		
+	</requirement>
+	<relation>
+		<source>system-func-01</source>
+		<destination>user-gui-01</destination>
+		<type>2</type>
+	</relation>
+</req_spec><req_spec title="system requirement 03"  doc_id="rec-spec-03"  >
+<revision><![CDATA[1]]></revision>
+
+<type><![CDATA[3]]></type>
+
+<node_order><![CDATA[3]]></node_order>
+
+<total_req><![CDATA[0]]></total_req>
+<scope>
+<![CDATA[<p>a system requirement</p>]]>
+</scope>
+	<requirement>
+		<docid><![CDATA[system-func-01]]></docid>
+		<title><![CDATA[system function 01]]></title>
+		<version>1</version>
+		<revision>1</revision>
+		<node_order>2</node_order>
+		<description><![CDATA[<p>a system function</p>]]></description>
+		<status><![CDATA[D]]></status>
+		<type><![CDATA[7]]></type>
+		<expected_coverage><![CDATA[1]]></expected_coverage>
+		
+	</requirement>
+	<requirement>
+		<docid><![CDATA[feature-01]]></docid>
+		<title><![CDATA[feature 01]]></title>
+		<version>1</version>
+		<revision>1</revision>
+		<node_order>3</node_order>
+		<description><![CDATA[<p>a feature</p>]]></description>
+		<status><![CDATA[D]]></status>
+		<type><![CDATA[2]]></type>
+		<expected_coverage><![CDATA[1]]></expected_coverage>
+		
+	</requirement>
+	<relation>
+		<source>system-func-01</source>
+		<destination>user-gui-01</destination>
+		<type>2</type>
+	</relation>
+</req_spec></requirement-specification>
